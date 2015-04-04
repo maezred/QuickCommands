@@ -76,7 +76,13 @@ public class Commands {
 				int unbreaking = item.getEnchantmentLevel(Enchantment.DURABILITY);
 
 				if (unbreaking > 0) {
-					durability = (durability * (unbreaking + 1));
+					if (plugin.configuration.global.tools.contains(type)) {
+						// Tool unbreaking.
+						durability = (int) ((double) durability / ((100. / ((double) unbreaking + 1.)) / 100.));
+					} else {
+						// Armor unbreaking.
+						durability = (int) ((double) durability / ((60. + (40. / ((double) unbreaking + 1.))) / 100.));
+					}
 					percentage = (double) durability / (double) max * 100.;
 
 					if (percentage > 66.666) {

@@ -83,6 +83,46 @@ public class Configuration {
 
 			Material.FLINT_AND_STEEL
 		));
+
+		final protected Set<Material> tools = new HashSet<>(Arrays.asList(
+			Material.DIAMOND_AXE,
+			Material.DIAMOND_PICKAXE,
+			Material.DIAMOND_SPADE,
+			Material.DIAMOND_SWORD,
+			Material.DIAMOND_HOE,
+
+			Material.IRON_AXE,
+			Material.IRON_PICKAXE,
+			Material.IRON_SPADE,
+			Material.IRON_SWORD,
+			Material.IRON_HOE,
+
+			Material.STONE_AXE,
+			Material.STONE_PICKAXE,
+			Material.STONE_SPADE,
+			Material.STONE_SWORD,
+			Material.STONE_HOE,
+
+			Material.WOOD_AXE,
+			Material.WOOD_PICKAXE,
+			Material.WOOD_SPADE,
+			Material.WOOD_SWORD,
+			Material.WOOD_HOE,
+
+			Material.GOLD_AXE,
+			Material.GOLD_PICKAXE,
+			Material.GOLD_SPADE,
+			Material.GOLD_SWORD,
+			Material.GOLD_HOE,
+
+			Material.BOW,
+
+			Material.FISHING_ROD,
+
+			Material.SHEARS,
+
+			Material.FLINT_AND_STEEL
+		));
 	}
 
 	// Final data.
