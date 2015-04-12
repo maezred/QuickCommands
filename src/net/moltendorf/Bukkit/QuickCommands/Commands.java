@@ -313,6 +313,46 @@ public class Commands {
 		return true;
 	}
 
+	protected boolean name(CommandSender commandSender, Command command, String s, String[] strings) {
+		final Player player;
+		final String name;
+
+		if (strings.length == 1) {
+			if (commandSender instanceof Player) {
+				player = (Player) commandSender;
+				name = strings[0];
+			} else {
+				commandSender.sendMessage("You must be a player to use this command with only one argument.");
+
+				return false;
+			}
+		} else if (strings.length == 2) {
+			if (!commandSender.isOp()) {
+				commandSender.sendMessage("You must be an operator to use this command on other players.");
+
+				return true;
+			}
+
+			player = plugin.getServer().getPlayerExact(strings[0]);
+
+			if (player == null) {
+				commandSender.sendMessage("Could not find player " + strings[0] + ".");
+
+				return true;
+			}
+
+			name = strings[1];
+		} else {
+			commandSender.sendMessage("Invalid number of arguments.");
+
+			return false;
+		}
+
+		player.setDisplayName(name);
+
+		return true;
+	}
+
 	protected boolean example(CommandSender commandSender, Command command, String s, String[] strings) {
 		return false;
 	}
