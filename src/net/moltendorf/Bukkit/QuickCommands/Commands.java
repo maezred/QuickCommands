@@ -1,11 +1,15 @@
 package net.moltendorf.Bukkit.QuickCommands;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitScheduler;
 
 /**
  * Listener register.
@@ -46,7 +50,7 @@ public class Commands {
 				return false;
 			}
 
-			Player player = (Player) commandSender;
+			Player player = (Player)commandSender;
 
 			ItemStack item = player.getItemInHand();
 			Material type = item.getType();
@@ -62,7 +66,7 @@ public class Commands {
 							if (durability == -1) {
 								durability = 0;
 							} else {
-								durability = (short) (max - durability);
+								durability = (short)(max - durability);
 							}
 
 							item.setDurability(durability);
@@ -80,7 +84,7 @@ public class Commands {
 
 				int durability = max - item.getDurability();
 
-				double percentage = (double) durability / (double) max * 100.;
+				double percentage = (double)durability/(double)max*100.;
 
 				String message;
 
@@ -109,12 +113,12 @@ public class Commands {
 				if (unbreaking > 0) {
 					if (plugin.configuration.global.tools.contains(type)) {
 						// Tool unbreaking.
-						durability = (int) ((double) durability / ((100. / ((double) unbreaking + 1.)) / 100.));
+						durability = (int)((double)durability/((100./((double)unbreaking + 1.))/100.));
 					} else {
 						// Armor unbreaking.
-						durability = (int) ((double) durability / ((60. + (40. / ((double) unbreaking + 1.))) / 100.));
+						durability = (int)((double)durability/((60. + (40./((double)unbreaking + 1.)))/100.));
 					}
-					percentage = (double) durability / (double) max * 100.;
+					percentage = (double)durability/(double)max*100.;
 
 					if (percentage > 66.666) {
 						color = "§a";
@@ -155,7 +159,7 @@ public class Commands {
 
 		if (strings.length == 1) {
 			if (commandSender instanceof Player) {
-				player1 = (Player) commandSender;
+				player1 = (Player)commandSender;
 				player2 = plugin.getServer().getPlayerExact(strings[0]);
 			} else {
 				commandSender.sendMessage("You must be a player to use this command with only one argument.");
@@ -199,7 +203,7 @@ public class Commands {
 
 		if (strings.length == 1) {
 			if (commandSender instanceof Player) {
-				player1 = (Player) commandSender;
+				player1 = (Player)commandSender;
 				player2 = plugin.getServer().getPlayerExact(strings[0]);
 			} else {
 				commandSender.sendMessage("You must be a player to use this command with only one argument.");
@@ -331,7 +335,7 @@ public class Commands {
 
 		if (strings.length == 1) {
 			if (commandSender instanceof Player) {
-				player = (Player) commandSender;
+				player = (Player)commandSender;
 				name = strings[0];
 			} else {
 				commandSender.sendMessage("You must be a player to use this command with only one argument.");
