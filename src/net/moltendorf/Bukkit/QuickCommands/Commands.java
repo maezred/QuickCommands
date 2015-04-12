@@ -401,6 +401,7 @@ public class Commands {
 				}
 
 				teleport = () -> {
+					final Location previous = player.getLocation();
 					final Location location;
 
 					if (toPlayer.isOnline() && toPlayer.getPlayer().getWorld().getName().equals("world")) {
@@ -417,6 +418,7 @@ public class Commands {
 					scheduler.runTaskLater(instance, () -> {
 						player.sendMessage("§2Jump to drop pod successful.");
 
+						previous.getWorld().strikeLightningEffect(previous);
 						location.getWorld().strikeLightningEffect(location);
 					}, 5);
 				};
@@ -442,6 +444,7 @@ public class Commands {
 				}
 
 				teleport = () -> {
+					final Location previous = player.getLocation();
 					final Location location = new Location(server.getWorld("world"), x, 600, z);
 
 					player.teleport(location);
@@ -449,6 +452,7 @@ public class Commands {
 					scheduler.runTaskLater(instance, () -> {
 						player.sendMessage("§2Phase jump to drop pod successful.");
 
+						previous.getWorld().strikeLightningEffect(previous);
 						location.getWorld().strikeLightningEffect(location);
 					}, 5);
 				};
