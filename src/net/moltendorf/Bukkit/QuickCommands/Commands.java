@@ -40,13 +40,44 @@ public class Commands {
 
 	protected boolean durability(CommandSender commandSender, Command command, String s, String[] strings) {
 		if (commandSender instanceof Player) {
+			if (strings.length > 1) {
+				commandSender.sendMessage("Invalid number of arguments.");
+
+				return false;
+			}
+
 			Player player = (Player) commandSender;
 
 			ItemStack item = player.getItemInHand();
 			Material type = item.getType();
 
 			if (plugin.configuration.global.equipment.contains(type)) {
-				int max = item.getType().getMaxDurability();
+				short max = item.getType().getMaxDurability();
+
+				if (strings.length == 1) {
+					if (commandSender.isOp()) {
+						try {
+							short durability = Short.parseShort(strings[0]);
+
+							if (durability == -1) {
+								durability = 0;
+							} else {
+								durability = (short) (max - durability);
+							}
+
+							item.setDurability(durability);
+						} catch (final NumberFormatException exception) {
+							commandSender.sendMessage("Invalid durability specified.");
+
+							return false;
+						}
+					} else {
+						commandSender.sendMessage("You must be an operator to set an item's durability.");
+
+						return true;
+					}
+				}
+
 				int durability = max - item.getDurability();
 
 				double percentage = (double) durability / (double) max * 100.;
@@ -98,7 +129,20 @@ public class Commands {
 					message += ".";
 				}
 
-				player.sendMessage(message);
+				commandSender.sendMessage(message);
+
+				return true;
+			}
+
+			commandSender.sendMessage("§7Item has no durability.");
+
+			return true;
+		}
+
+		commandSender.sendMessage("You must be a player to use this command.");
+
+		return true;
+	}
 
 				return true;
 			} else {
