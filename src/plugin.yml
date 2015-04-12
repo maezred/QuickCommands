@@ -20,3 +20,6 @@ commands:
   health:
     description: Configure a player's health.
     usage: /<command> <player> <max> [scale] [health]
+  drop:
+    description: Drop a player at a location.
+    usage: /<command> <player> <x> <z>

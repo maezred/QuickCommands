@@ -9,6 +9,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class Plugin extends JavaPlugin {
 
+	// Main instance.
+	public static Plugin instance = null;
+
 	// Variable data.
 	protected Configuration configuration = null;
 	protected Commands commands = null;
@@ -38,5 +41,6 @@ public class Plugin extends JavaPlugin {
 		getCommand("hide").setExecutor(commands::hide);
 		getCommand("show").setExecutor(commands::show);
 		getCommand("health").setExecutor(commands::health);
+		getCommand("drop").setExecutor(commands::drop);
 	}
 }

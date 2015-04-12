@@ -365,6 +365,118 @@ public class Commands {
 		return true;
 	}
 
+	protected boolean drop(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (!commandSender.hasPermission("quickcommands.drop") && !commandSender.isOp()) {
+			commandSender.sendMessage("You must be an operator to use this command on other players.");
+
+			return true;
+		}
+
+		if (strings.length == 2 || strings.length == 3) {
+			final Player player = plugin.getServer().getPlayer(strings[0]);
+
+			if (player == null) {
+				commandSender.sendMessage("Could not find player " + strings[0] + ".");
+
+				return true;
+			}
+
+			final Plugin instance = Plugin.instance;
+			final Server server = instance.getServer();
+			final BukkitScheduler scheduler = server.getScheduler();
+
+			final Runnable teleport;
+
+			if (strings.length == 2) {
+				final OfflinePlayer toPlayer = plugin.getServer().getOfflinePlayer(strings[1]);
+
+				if (toPlayer == null || !toPlayer.hasPlayedBefore()) {
+					commandSender.sendMessage("Could not find player " + strings[1] + ".");
+
+					return true;
+				}
+
+				teleport = () -> {
+					final Location location;
+
+					if (toPlayer.isOnline() && toPlayer.getPlayer().getWorld().getName().equals("world")) {
+						location = toPlayer.getPlayer().getLocation();
+					} else {
+						location = toPlayer.getBedSpawnLocation();
+					}
+
+					location.setX(600);
+
+					player.teleport(location);
+					player.sendMessage("§2Jump to drop pod successful.");
+
+					scheduler.runTaskLater(instance, () -> {
+						player.sendMessage("§2Jump to drop pod successful.");
+
+						location.getWorld().strikeLightningEffect(location);
+					}, 5);
+				};
+			} else {
+				final int x;
+
+				try {
+					x = Integer.parseInt(strings[1]);
+				} catch (final NumberFormatException exception) {
+					commandSender.sendMessage("Invalid x specified.");
+
+					return false;
+				}
+
+				final int z;
+
+				try {
+					z = Integer.parseInt(strings[2]);
+				} catch (final NumberFormatException exception) {
+					commandSender.sendMessage("Invalid z specified.");
+
+					return false;
+				}
+
+				teleport = () -> {
+					final Location location = new Location(server.getWorld("world"), x, 600, z);
+
+					player.teleport(location);
+
+					scheduler.runTaskLater(instance, () -> {
+						player.sendMessage("§2Phase jump to drop pod successful.");
+
+						location.getWorld().strikeLightningEffect(location);
+					}, 5);
+				};
+			}
+
+			player.sendMessage("§4Preparing phase jump to drop pod.");
+			player.sendMessage("§2Phase jump in 5.");
+
+			scheduler.runTaskLater(instance, () -> {
+				player.sendMessage("§2Phase jump in 4.");
+
+				scheduler.runTaskLater(instance, () -> {
+					player.sendMessage("§2Phase jump in 3.");
+
+					scheduler.runTaskLater(instance, () -> {
+						player.sendMessage("§2Phase jump in 2.");
+
+						scheduler.runTaskLater(instance, () -> {
+							player.sendMessage("§2Phase jump in 1.");
+
+							scheduler.runTaskLater(instance, teleport, 20);
+						}, 20);
+					}, 20);
+				}, 20);
+			}, 20);
+
+			return true;
+		}
+
+		return false;
+	}
+
 	protected boolean example(CommandSender commandSender, Command command, String s, String[] strings) {
 		return false;
 	}
