@@ -18,11 +18,13 @@ public class Plugin extends JavaPlugin {
 
 	@Override
 	public synchronized void onDisable() {
-		// Do nothing.
+		instance = null;
 	}
 
 	@Override
 	public synchronized void onEnable() {
+		// Store reference to this.
+		instance = this;
 
 		// Construct new configuration.
 		configuration = new Configuration();
