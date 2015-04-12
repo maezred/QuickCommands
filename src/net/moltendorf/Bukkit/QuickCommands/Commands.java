@@ -261,10 +261,14 @@ public class Commands {
 			players = new Player[]{player};
 		}
 
-		final double max;
+		double max;
 
 		try {
 			max = Double.parseDouble(strings[1]);
+
+			if (max > 2048) {
+				max = 2048;
+			}
 		} catch (final NumberFormatException exception) {
 			commandSender.sendMessage("Invalid max health specified.");
 
@@ -277,10 +281,14 @@ public class Commands {
 		}
 
 		if (strings.length > 2) {
-			final double scale;
+			double scale;
 
 			try {
 				scale = Double.parseDouble(strings[2]);
+
+				if (scale > 100) {
+					scale = 100;
+				}
 			} catch (final NumberFormatException exception) {
 				commandSender.sendMessage("Invalid health scale specified.");
 
@@ -294,10 +302,14 @@ public class Commands {
 		}
 
 		if (strings.length > 3) {
-			final double health;
+			double health;
 
 			try {
 				health = Double.parseDouble(strings[3]);
+
+				if (health > 2048) {
+					health = 2048;
+				}
 			} catch (final NumberFormatException exception) {
 				commandSender.sendMessage("Invalid health specified.");
 
