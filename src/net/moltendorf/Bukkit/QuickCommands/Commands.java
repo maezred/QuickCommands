@@ -410,7 +410,7 @@ public class Commands {
 						location = toPlayer.getBedSpawnLocation();
 					}
 
-					location.setX(600);
+					location.setY(600);
 
 					player.teleport(location);
 
