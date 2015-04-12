@@ -144,12 +144,95 @@ public class Commands {
 		return true;
 	}
 
-				return true;
-			} else {
-				player.sendMessage("§7Item has no durability.");
-			}
+	protected boolean hide(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (!commandSender.isOp()) {
+			commandSender.sendMessage("You must be an operator to use this command.");
+
+			return true;
 		}
 
+		final Player player1, player2;
+
+		if (strings.length == 1) {
+			if (commandSender instanceof Player) {
+				player1 = (Player) commandSender;
+				player2 = plugin.getServer().getPlayerExact(strings[0]);
+			} else {
+				commandSender.sendMessage("You must be a player to use this command with only one argument.");
+
+				return false;
+			}
+		} else if (strings.length == 2) {
+			player1 = plugin.getServer().getPlayerExact(strings[0]);
+			player2 = plugin.getServer().getPlayerExact(strings[1]);
+		} else {
+			commandSender.sendMessage("Invalid number of arguments.");
+
+			return false;
+		}
+
+		if (player1 == null) {
+			commandSender.sendMessage("Could not find player " + strings[0] + ".");
+
+			return true;
+		}
+
+		if (player2 == null) {
+			commandSender.sendMessage("Could not find player " + strings[1] + ".");
+
+			return true;
+		}
+
+		player2.hidePlayer(player1);
+
+		return true;
+	}
+
+	protected boolean show(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (!commandSender.isOp()) {
+			commandSender.sendMessage("You must be an operator to use this command.");
+
+			return true;
+		}
+
+		final Player player1, player2;
+
+		if (strings.length == 1) {
+			if (commandSender instanceof Player) {
+				player1 = (Player) commandSender;
+				player2 = plugin.getServer().getPlayerExact(strings[0]);
+			} else {
+				commandSender.sendMessage("You must be a player to use this command with only one argument.");
+
+				return false;
+			}
+		} else if (strings.length == 2) {
+			player1 = plugin.getServer().getPlayerExact(strings[0]);
+			player2 = plugin.getServer().getPlayerExact(strings[1]);
+		} else {
+			commandSender.sendMessage("Invalid number of arguments.");
+
+			return false;
+		}
+
+		if (player1 == null) {
+			commandSender.sendMessage("Could not find player " + strings[0] + ".");
+
+			return true;
+		}
+
+		if (player2 == null) {
+			commandSender.sendMessage("Could not find player " + strings[1] + ".");
+
+			return true;
+		}
+
+		player2.showPlayer(player1);
+
+		return true;
+	}
+
+	protected boolean example(CommandSender commandSender, Command command, String s, String[] strings) {
 		return false;
 	}
 }

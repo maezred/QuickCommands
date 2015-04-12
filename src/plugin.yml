@@ -11,3 +11,9 @@ commands:
   durability:
     description: Check or set your tool's durability (-1 sets it to max).
     usage: /<command> [durability]
+  hide:
+    description: Hide a player from another player.
+    usage: /<command> [player] <from player>
+  show:
+    description: Show a player to another player.
+    usage: /<command> [player] <to player>

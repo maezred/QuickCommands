@@ -35,5 +35,7 @@ public class Plugin extends JavaPlugin {
 		// Register our commands.
 		getCommand("colors").setExecutor(commands::colors);
 		getCommand("durability").setExecutor(commands::durability);
+		getCommand("hide").setExecutor(commands::hide);
+		getCommand("show").setExecutor(commands::show);
 	}
 }
