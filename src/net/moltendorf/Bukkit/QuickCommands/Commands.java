@@ -413,10 +413,9 @@ public class Commands {
 					location.setX(600);
 
 					player.teleport(location);
-					player.sendMessage("§2Jump to drop pod successful.");
 
 					scheduler.runTaskLater(instance, () -> {
-						player.sendMessage("§2Jump to drop pod successful.");
+						player.sendMessage("§2Phase jump to drop pod successful.");
 
 						previous.getWorld().strikeLightningEffect(previous);
 						location.getWorld().strikeLightningEffect(location);
