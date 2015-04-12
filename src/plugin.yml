@@ -9,5 +9,5 @@ commands:
     description: Display all the colors usable in chat.
     usage: /<command>
   durability:
-    description: Check your tool's durability.
-    usage: /<command>
+    description: Check or set your tool's durability (-1 sets it to max).
+    usage: /<command> [durability]
