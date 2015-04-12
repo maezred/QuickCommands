@@ -232,6 +232,87 @@ public class Commands {
 		return true;
 	}
 
+	protected boolean health(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (!commandSender.isOp()) {
+			commandSender.sendMessage("You must be an operator to use this command.");
+
+			return true;
+		}
+
+		if (strings.length < 2 || strings.length > 4) {
+			commandSender.sendMessage("Invalid number of arguments.");
+
+			return false;
+		}
+
+		final Player[] players;
+
+		if (strings[0].equals("*")) {
+			players = plugin.getServer().getOnlinePlayers();
+		} else {
+			final Player player = plugin.getServer().getPlayer(strings[0]);
+
+			if (player == null) {
+				commandSender.sendMessage("Could not find player " + strings[0] + ".");
+
+				return true;
+			}
+
+			players = new Player[]{player};
+		}
+
+		final double max;
+
+		try {
+			max = Double.parseDouble(strings[1]);
+		} catch (final NumberFormatException exception) {
+			commandSender.sendMessage("Invalid max health specified.");
+
+			return false;
+		}
+
+		for (Player player : players) {
+			player.setMaxHealth(max);
+			player.sendMessage("Set max health to " + max);
+		}
+
+		if (strings.length > 2) {
+			final double scale;
+
+			try {
+				scale = Double.parseDouble(strings[2]);
+			} catch (final NumberFormatException exception) {
+				commandSender.sendMessage("Invalid health scale specified.");
+
+				return false;
+			}
+
+			for (Player player : players) {
+				player.setHealthScale(scale);
+				player.sendMessage("Set health scale to " + scale);
+			}
+		}
+
+		if (strings.length > 3) {
+			final double health;
+
+			try {
+				health = Double.parseDouble(strings[3]);
+			} catch (final NumberFormatException exception) {
+				commandSender.sendMessage("Invalid health specified.");
+
+				return false;
+			}
+
+			for (Player player : players) {
+				player.setHealth(health);
+				player.sendMessage("Set health to " + health);
+			}
+		}
+
+		return true;
+	}
+
 	protected boolean example(CommandSender commandSender, Command command, String s, String[] strings) {
 		return false;
 	}

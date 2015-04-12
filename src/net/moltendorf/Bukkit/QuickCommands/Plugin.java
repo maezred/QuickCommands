@@ -37,5 +37,6 @@ public class Plugin extends JavaPlugin {
 		getCommand("durability").setExecutor(commands::durability);
 		getCommand("hide").setExecutor(commands::hide);
 		getCommand("show").setExecutor(commands::show);
+		getCommand("health").setExecutor(commands::health);
 	}
 }

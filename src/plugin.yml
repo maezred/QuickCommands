@@ -17,3 +17,6 @@ commands:
   show:
     description: Show a player to another player.
     usage: /<command> [player] <to player>
+  health:
+    description: Configure a player's health.
+    usage: /<command> <player> <max> [scale] [health]
