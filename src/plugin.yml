@@ -23,3 +23,7 @@ commands:
   drop:
     description: Drop a player at a location.
     usage: /<command> <player> <x> <z>
+permissions:
+  quickcommands.drop:
+    default: false
+    description: Allows a player to use /drop.
