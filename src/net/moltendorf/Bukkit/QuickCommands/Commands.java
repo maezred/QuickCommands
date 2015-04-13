@@ -404,7 +404,8 @@ public class Commands {
 					final Location previous = player.getLocation();
 					final Location location;
 
-					if (toPlayer.isOnline() && toPlayer.getPlayer().getWorld().getName().equals("world")) {
+					if (!toPlayer.getUniqueId().equals(player.getUniqueId()) && toPlayer.isOnline() && toPlayer.getPlayer().getWorld().getName().equals
+						("world")) {
 						location = toPlayer.getPlayer().getLocation();
 					} else {
 						location = toPlayer.getBedSpawnLocation();
