@@ -502,7 +502,7 @@ public class Commands {
 			commandSender.sendMessage("§2Found and cleaned up " + arrows.size() + " arrows in " + world.getName() + ".");
 		}
 
-		return false;
+		return true;
 	}
 
 	protected boolean example(CommandSender commandSender, Command command, String s, String[] strings) {
