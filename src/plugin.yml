@@ -23,6 +23,9 @@ commands:
   drop:
     description: Drop a player at a location.
     usage: /<command> <player> <x> <z>
+  cleanup:
+    description: Cleanup broken entities (currently only does arrows).
+    usage: /<command>
 permissions:
   quickcommands.drop:
     default: false

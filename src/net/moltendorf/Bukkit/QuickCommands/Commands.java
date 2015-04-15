@@ -1,15 +1,15 @@
 package net.moltendorf.Bukkit.QuickCommands;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Server;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitScheduler;
+
+import java.util.Collection;
 
 /**
  * Listener register.
@@ -480,6 +480,26 @@ public class Commands {
 			}, 20);
 
 			return true;
+		}
+
+		return false;
+	}
+
+	protected boolean cleanup(CommandSender commandSender, Command command, String s, String[] strings) {
+		for (final World world : Plugin.instance.getServer().getWorlds()) {
+			final Collection<Arrow> arrows = world.getEntitiesByClass(Arrow.class);
+
+			int removed_arrows = 0;
+
+			for (final Arrow arrow : arrows) {
+				if (arrow.getTicksLived() > 15*20) {
+					arrow.remove();
+
+					++removed_arrows;
+				}
+			}
+
+			commandSender.sendMessage("§2Found and cleaned up " + arrows.size() + " arrows.");
 		}
 
 		return false;

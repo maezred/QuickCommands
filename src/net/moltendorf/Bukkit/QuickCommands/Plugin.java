@@ -44,5 +44,6 @@ public class Plugin extends JavaPlugin {
 		getCommand("show").setExecutor(commands::show);
 		getCommand("health").setExecutor(commands::health);
 		getCommand("drop").setExecutor(commands::drop);
+		getCommand("cleanup").setExecutor(commands::cleanup);
 	}
 }
