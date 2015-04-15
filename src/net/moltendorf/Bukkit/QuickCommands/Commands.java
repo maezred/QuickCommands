@@ -499,7 +499,7 @@ public class Commands {
 				}
 			}
 
-			commandSender.sendMessage("§2Found and cleaned up " + arrows.size() + " arrows.");
+			commandSender.sendMessage("§2Found and cleaned up " + arrows.size() + " arrows in " + world.getName() + ".");
 		}
 
 		return false;
