@@ -59,7 +59,7 @@ public class Commands {
 				short max = item.getType().getMaxDurability();
 
 				if (strings.length == 1) {
-					if (commandSender.isOp()) {
+					if (commandSender.hasPermission("quickcommands.durability.set")) {
 						try {
 							short durability = Short.parseShort(strings[0]);
 
@@ -149,12 +149,6 @@ public class Commands {
 	}
 
 	public boolean hide(CommandSender commandSender, Command command, String s, String[] strings) {
-		if (!commandSender.isOp()) {
-			commandSender.sendMessage("You must be an operator to use this command.");
-
-			return true;
-		}
-
 		final Player player1, player2;
 
 		if (strings.length == 1) {
@@ -193,12 +187,6 @@ public class Commands {
 	}
 
 	public boolean show(CommandSender commandSender, Command command, String s, String[] strings) {
-		if (!commandSender.isOp()) {
-			commandSender.sendMessage("You must be an operator to use this command.");
-
-			return true;
-		}
-
 		final Player player1, player2;
 
 		if (strings.length == 1) {
@@ -237,12 +225,6 @@ public class Commands {
 	}
 
 	public boolean health(CommandSender commandSender, Command command, String s, String[] strings) {
-		if (!commandSender.isOp()) {
-			commandSender.sendMessage("You must be an operator to use this command.");
-
-			return true;
-		}
-
 		if (strings.length < 2 || strings.length > 4) {
 			commandSender.sendMessage("Invalid number of arguments.");
 
@@ -343,12 +325,6 @@ public class Commands {
 				return false;
 			}
 		} else if (strings.length == 2) {
-			if (!commandSender.isOp()) {
-				commandSender.sendMessage("You must be an operator to use this command on other players.");
-
-				return true;
-			}
-
 			player = plugin.getServer().getPlayerExact(strings[0]);
 
 			if (player == null) {
@@ -370,12 +346,6 @@ public class Commands {
 	}
 
 	public boolean drop(CommandSender commandSender, Command command, String s, String[] strings) {
-		if (!commandSender.hasPermission("quickcommands.drop") && !commandSender.isOp()) {
-			commandSender.sendMessage("You must be an operator to use this command on other players.");
-
-			return true;
-		}
-
 		if (strings.length == 2 || strings.length == 3) {
 			final Player player = plugin.getServer().getPlayer(strings[0]);
 

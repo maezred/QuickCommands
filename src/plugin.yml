@@ -8,25 +8,53 @@ commands:
   colors:
     description: Display all the colors usable in chat.
     usage: /<command>
+    permission: quickcommands.colors
   durability:
     description: Check or set your tool's durability (-1 sets it to max).
     usage: /<command> [durability]
+    permission: quickcommands.durability
   hide:
     description: Hide a player from another player.
     usage: /<command> [player] <from player>
+    permission: quickcommands.hide
   show:
     description: Show a player to another player.
     usage: /<command> [player] <to player>
+    permission: quickcommands.show
   health:
     description: Configure a player's health.
     usage: /<command> <player> <max> [scale] [health]
+    permission: quickcommands.health
   drop:
     description: Drop a player at a location.
     usage: /<command> <player> <x> <z>
+    permission: quickcommands.drop
   cleanup:
     description: Cleanup broken entities (currently only does arrows).
     usage: /<command>
+    permission: quickcommands.cleanup
 permissions:
+  quickcommands.colors:
+    default: true
+    description: Allows a player to use /colors.
+  quickcommands.durability:
+    default: true
+    description: Allows a player to use /durability.
+  quickcommands.durability.set:
+    default: op
+    description: Allows a player to use /durability to set their tool's durability.
+  quickcommands.hide:
+    default: op
+    description: Allows a player to use /hide.
+  quickcommands.show:
+    default: op
+    description: Allows a player to use /show.
+  quickcommands.health:
+    default: op
+    description: Allows a player to use /health.
   quickcommands.drop:
-    default: false
+    default: op
     description: Allows a player to use /drop.
+  quickcommands.cleanup:
+    default: op
+    description: Allows a player to use /cleanup.
