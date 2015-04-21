@@ -1,6 +1,12 @@
 package net.moltendorf.Bukkit.QuickCommands;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Created by moltendorf on 15/04/03.
@@ -14,7 +20,7 @@ public class Plugin extends JavaPlugin {
 
 	// Variable data.
 	protected Configuration configuration = null;
-	protected Commands commands = null;
+	protected Commands      commands      = null;
 
 	@Override
 	public synchronized void onDisable() {
@@ -38,12 +44,28 @@ public class Plugin extends JavaPlugin {
 		commands = new Commands(this);
 
 		// Register our commands.
-		getCommand("colors").setExecutor(commands::colors);
-		getCommand("durability").setExecutor(commands::durability);
-		getCommand("hide").setExecutor(commands::hide);
-		getCommand("show").setExecutor(commands::show);
-		getCommand("health").setExecutor(commands::health);
-		getCommand("drop").setExecutor(commands::drop);
-		getCommand("cleanup").setExecutor(commands::cleanup);
+		for (final String methodName : getDescription().getCommands().keySet()) {
+			try {
+				getLogger().info("Enabling command: /" + methodName + ".");
+
+				final Method method = commands.getClass().getMethod(methodName, CommandSender.class, Command.class, String.class, String[].class);
+
+				final CommandExecutor executor = (final CommandSender a, final Command b, final String c, final String[] d) -> {
+					try {
+						return (boolean)method.invoke(commands, a, b, c, d);
+					} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException exception) {
+						getLogger().info("Error executing command: /" + methodName + ".");
+						exception.printStackTrace();
+					}
+
+					return false;
+				};
+
+				getCommand(methodName).setExecutor(executor);
+			} catch (NoSuchMethodException exception) {
+				getLogger().info("Failed to enable command: /" + methodName + ".");
+				exception.printStackTrace();
+			}
+		}
 	}
 }

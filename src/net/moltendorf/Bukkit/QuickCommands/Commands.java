@@ -24,7 +24,7 @@ public class Commands {
 		plugin = instance;
 	}
 
-	protected boolean colors(CommandSender commandSender, Command command, String s, String[] strings) {
+	public boolean colors(CommandSender commandSender, Command command, String s, String[] strings) {
 		if (commandSender instanceof Player) {
 			commandSender.sendMessage("All chat colors:\n" +
 				"§r&0: §0BLACK §r&1: §1DARK BLUE §r&2: §2DARK GREEN §r&3: §3DARK AQUA\n" +
@@ -42,7 +42,7 @@ public class Commands {
 		return true;
 	}
 
-	protected boolean durability(CommandSender commandSender, Command command, String s, String[] strings) {
+	public boolean durability(CommandSender commandSender, Command command, String s, String[] strings) {
 		if (commandSender instanceof Player) {
 			if (strings.length > 1) {
 				commandSender.sendMessage("Invalid number of arguments.");
@@ -148,7 +148,7 @@ public class Commands {
 		return true;
 	}
 
-	protected boolean hide(CommandSender commandSender, Command command, String s, String[] strings) {
+	public boolean hide(CommandSender commandSender, Command command, String s, String[] strings) {
 		if (!commandSender.isOp()) {
 			commandSender.sendMessage("You must be an operator to use this command.");
 
@@ -192,7 +192,7 @@ public class Commands {
 		return true;
 	}
 
-	protected boolean show(CommandSender commandSender, Command command, String s, String[] strings) {
+	public boolean show(CommandSender commandSender, Command command, String s, String[] strings) {
 		if (!commandSender.isOp()) {
 			commandSender.sendMessage("You must be an operator to use this command.");
 
@@ -236,7 +236,7 @@ public class Commands {
 		return true;
 	}
 
-	protected boolean health(CommandSender commandSender, Command command, String s, String[] strings) {
+	public boolean health(CommandSender commandSender, Command command, String s, String[] strings) {
 		if (!commandSender.isOp()) {
 			commandSender.sendMessage("You must be an operator to use this command.");
 
@@ -329,7 +329,7 @@ public class Commands {
 		return true;
 	}
 
-	protected boolean name(CommandSender commandSender, Command command, String s, String[] strings) {
+	public boolean name(CommandSender commandSender, Command command, String s, String[] strings) {
 		final Player player;
 		final String name;
 
@@ -369,7 +369,7 @@ public class Commands {
 		return true;
 	}
 
-	protected boolean drop(CommandSender commandSender, Command command, String s, String[] strings) {
+	public boolean drop(CommandSender commandSender, Command command, String s, String[] strings) {
 		if (!commandSender.hasPermission("quickcommands.drop") && !commandSender.isOp()) {
 			commandSender.sendMessage("You must be an operator to use this command on other players.");
 
@@ -485,7 +485,7 @@ public class Commands {
 		return false;
 	}
 
-	protected boolean cleanup(CommandSender commandSender, Command command, String s, String[] strings) {
+	public boolean cleanup(CommandSender commandSender, Command command, String s, String[] strings) {
 		for (final World world : Plugin.instance.getServer().getWorlds()) {
 			final Collection<Arrow> arrows = world.getEntitiesByClass(Arrow.class);
 
@@ -509,7 +509,7 @@ public class Commands {
 		return true;
 	}
 
-	protected boolean example(CommandSender commandSender, Command command, String s, String[] strings) {
+	public boolean example(CommandSender commandSender, Command command, String s, String[] strings) {
 		return false;
 	}
 }
