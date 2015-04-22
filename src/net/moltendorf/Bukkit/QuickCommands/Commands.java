@@ -71,7 +71,7 @@ public class Commands {
 
 							item.setDurability(durability);
 						} catch (final NumberFormatException exception) {
-							commandSender.sendMessage("Invalid durability specified.");
+							commandSender.sendMessage("§cInvalid durability specified.");
 
 							return false;
 						}
