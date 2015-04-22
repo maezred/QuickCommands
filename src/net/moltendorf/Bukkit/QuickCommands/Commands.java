@@ -76,7 +76,7 @@ public class Commands {
 							return false;
 						}
 					} else {
-						commandSender.sendMessage("You must be an operator to set an item's durability.");
+						commandSender.sendMessage(plugin.getCommand(s).getPermissionMessage());
 
 						return true;
 					}

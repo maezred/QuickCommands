@@ -13,26 +13,32 @@ commands:
     description: Check or set your tool's durability (-1 sets it to max).
     usage: /<command> [durability]
     permission: quickcommands.durability
+    permission-message: §cYou don't have permission.
   hide:
     description: Hide a player from another player.
     usage: /<command> [player] <from player>
     permission: quickcommands.hide
+    permission-message: §cYou don't have permission.
   show:
     description: Show a player to another player.
     usage: /<command> [player] <to player>
     permission: quickcommands.show
+    permission-message: §cYou don't have permission.
   health:
     description: Configure a player's health.
     usage: /<command> <player> <max> [scale] [health]
     permission: quickcommands.health
+    permission-message: §cYou don't have permission.
   drop:
     description: Drop a player at a location.
     usage: /<command> <player> <x> <z>
     permission: quickcommands.drop
+    permission-message: §cYou don't have permission.
   cleanup:
     description: Cleanup broken entities (currently only does arrows).
     usage: /<command>
     permission: quickcommands.cleanup
+    permission-message: §cYou don't have permission.
 permissions:
   quickcommands.colors:
     default: true
@@ -43,6 +49,8 @@ permissions:
   quickcommands.durability.set:
     default: op
     description: Allows a player to use /durability to set their tool's durability.
+    children:
+      quickcommands.durability: true
   quickcommands.hide:
     default: op
     description: Allows a player to use /hide.
