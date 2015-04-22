@@ -479,6 +479,26 @@ public class Commands {
 		return true;
 	}
 
+	public boolean alert(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (strings.length > 0) {
+			plugin.getServer().broadcastMessage("§8[§4Alert§8] " + String.join(" ", strings));
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean broadcast(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (strings.length > 0) {
+			plugin.getServer().broadcastMessage(String.join(" ", strings));
+
+			return true;
+		}
+
+		return false;
+	}
+
 	public boolean example(CommandSender commandSender, Command command, String s, String[] strings) {
 		return false;
 	}

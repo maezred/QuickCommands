@@ -39,6 +39,16 @@ commands:
     usage: /<command>
     permission: quickcommands.cleanup
     permission-message: §cYou don't have permission.
+  alert:
+    description: Cleanup broken entities (currently only does arrows).
+    usage: /<command> <message>
+    permission: quickcommands.alert
+    permission-message: §cYou don't have permission.
+  broadcast:
+    description: Cleanup broken entities (currently only does arrows).
+    usage: /<command> <message>
+    permission: quickcommands.broadcast
+    permission-message: §cYou don't have permission.
 permissions:
   quickcommands.colors:
     default: true
@@ -66,3 +76,9 @@ permissions:
   quickcommands.cleanup:
     default: op
     description: Allows a player to use /cleanup.
+  quickcommands.alert:
+    default: op
+    description: Allows a player to use /alert.
+  quickcommands.broadcast:
+    default: op
+    description: Allows a player to use /broadcast.
