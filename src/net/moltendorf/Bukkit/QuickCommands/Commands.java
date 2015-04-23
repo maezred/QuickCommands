@@ -499,6 +499,16 @@ public class Commands {
 		return false;
 	}
 
+	public boolean say(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (strings.length > 0) {
+			plugin.getServer().broadcastMessage("§8<§3Console§8> §3" + String.join(" ", strings));
+
+			return true;
+		}
+
+		return false;
+	}
+
 	public boolean example(CommandSender commandSender, Command command, String s, String[] strings) {
 		return false;
 	}

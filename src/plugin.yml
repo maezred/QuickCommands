@@ -49,6 +49,11 @@ commands:
     usage: /<command> <message>
     permission: quickcommands.broadcast
     permission-message: §cYou don't have permission.
+  say:
+    description: Send a message as console.
+    usage: /<command> <message>
+    permission: quickcommands.say
+    permission-message: §cYou don't have permission.
 permissions:
   quickcommands.colors:
     default: true
@@ -82,3 +87,6 @@ permissions:
   quickcommands.broadcast:
     default: op
     description: Allows a player to use /broadcast.
+  quickcommands.say:
+    default: op
+    description: Allows a player to use /say.
