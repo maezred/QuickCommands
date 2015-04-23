@@ -481,7 +481,7 @@ public class Commands {
 
 	public boolean alert(CommandSender commandSender, Command command, String s, String[] strings) {
 		if (strings.length > 0) {
-			plugin.getServer().broadcastMessage("§8[§4Alert§8] " + String.join(" ", strings));
+			plugin.getServer().broadcastMessage("§8<§4Alert§8> §f" + String.join(" ", strings));
 
 			return true;
 		}

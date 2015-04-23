@@ -40,12 +40,12 @@ commands:
     permission: quickcommands.cleanup
     permission-message: §cYou don't have permission.
   alert:
-    description: Cleanup broken entities (currently only does arrows).
+    description: Send an alert to the server.
     usage: /<command> <message>
     permission: quickcommands.alert
     permission-message: §cYou don't have permission.
   broadcast:
-    description: Cleanup broken entities (currently only does arrows).
+    description: Send a broadcast to the server.
     usage: /<command> <message>
     permission: quickcommands.broadcast
     permission-message: §cYou don't have permission.
