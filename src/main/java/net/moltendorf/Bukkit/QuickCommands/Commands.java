@@ -6,11 +6,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * Listener register.
@@ -529,6 +531,257 @@ public class Commands {
 		}
 
 		return false;
+	}
+
+	public boolean stuff(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (commandSender instanceof Player) {
+			final Player player = (Player)commandSender;
+
+			final Inventory inventory = player.getInventory();
+
+			inventory.clear();
+
+			// Armor.
+
+			final ItemStack helm = new ItemStack(Material.DIAMOND_HELMET);
+			helm.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.WATER_WORKER, 1);
+				put(Enchantment.OXYGEN, 3);
+				put(Enchantment.DURABILITY, 3);
+				put(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+			}});
+			helm.setDurability((short)(helm.getDurability()/2));
+
+			final ItemMeta helmMeta = helm.getItemMeta();
+			helmMeta.setDisplayName("Das Helm");
+			helm.setItemMeta(helmMeta);
+
+			final ItemStack vest = new ItemStack(Material.DIAMOND_CHESTPLATE);
+			vest.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.THORNS, 3);
+				put(Enchantment.DURABILITY, 3);
+				put(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+			}});
+			vest.setDurability((short)(vest.getDurability()/2));
+
+			final ItemMeta vestMeta = vest.getItemMeta();
+			vestMeta.setDisplayName("Das Vest");
+			vest.setItemMeta(vestMeta);
+
+			final ItemStack pant = new ItemStack(Material.DIAMOND_LEGGINGS);
+			pant.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.DURABILITY, 3);
+				put(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+			}});
+			pant.setDurability((short)(pant.getDurability()/2));
+
+			final ItemMeta pantMeta = pant.getItemMeta();
+			pantMeta.setDisplayName("Das Pant");
+			pant.setItemMeta(pantMeta);
+
+			final ItemStack boot = new ItemStack(Material.DIAMOND_BOOTS);
+			boot.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.PROTECTION_FALL, 4);
+				put(Enchantment.DURABILITY, 3);
+				put(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+			}});
+			boot.setDurability((short)(boot.getDurability()/2));
+
+			final ItemMeta bootMeta = boot.getItemMeta();
+			bootMeta.setDisplayName("Das Boot");
+			boot.setItemMeta(bootMeta);
+
+			// Tools.
+
+			final ItemStack silk = new ItemStack(Material.DIAMOND_PICKAXE);
+			silk.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.SILK_TOUCH, 1);
+				put(Enchantment.DIG_SPEED, 5);
+				put(Enchantment.DURABILITY, 3);
+			}});
+			silk.setDurability((short)(silk.getDurability()/2));
+
+			final ItemMeta silkMeta = silk.getItemMeta();
+			silkMeta.setDisplayName("Das Silk");
+			silk.setItemMeta(silkMeta);
+
+			final ItemStack luck = new ItemStack(Material.DIAMOND_PICKAXE);
+			luck.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.LOOT_BONUS_BLOCKS, 3);
+				put(Enchantment.DIG_SPEED, 5);
+				put(Enchantment.DURABILITY, 3);
+			}});
+			luck.setDurability((short)(luck.getDurability()/2));
+
+			final ItemMeta luckMeta = luck.getItemMeta();
+			luckMeta.setDisplayName("Das Luck");
+			luck.setItemMeta(luckMeta);
+
+			final ItemStack hole = new ItemStack(Material.DIAMOND_SPADE);
+			hole.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.DIG_SPEED, 5);
+				put(Enchantment.DURABILITY, 3);
+			}});
+			hole.setDurability((short)(hole.getDurability()/2));
+
+			final ItemMeta holeMeta = hole.getItemMeta();
+			holeMeta.setDisplayName("Das Hole");
+			hole.setItemMeta(holeMeta);
+
+			final ItemStack chop = new ItemStack(Material.DIAMOND_AXE);
+			chop.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.DAMAGE_ALL, 5);
+				put(Enchantment.DIG_SPEED, 5);
+				put(Enchantment.DURABILITY, 3);
+			}});
+			chop.setDurability((short)(chop.getDurability()/2));
+
+			final ItemMeta chopMeta = chop.getItemMeta();
+			chopMeta.setDisplayName("Das Chop");
+			chop.setItemMeta(chopMeta);
+
+			final ItemStack loot = new ItemStack(Material.DIAMOND_SWORD);
+			loot.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.LOOT_BONUS_MOBS, 2);
+				put(Enchantment.FIRE_ASPECT, 2);
+				put(Enchantment.KNOCKBACK, 2);
+				put(Enchantment.DAMAGE_ALL, 5);
+				put(Enchantment.DURABILITY, 3);
+			}});
+			loot.setDurability((short)(loot.getDurability()/2));
+
+			final ItemMeta lootMeta = loot.getItemMeta();
+			lootMeta.setDisplayName("Das Loot");
+			loot.setItemMeta(lootMeta);
+
+			final ItemStack arch = new ItemStack(Material.BOW);
+			arch.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.ARROW_INFINITE, 1);
+				put(Enchantment.ARROW_FIRE, 1);
+				put(Enchantment.ARROW_KNOCKBACK, 2);
+				put(Enchantment.ARROW_DAMAGE, 5);
+				put(Enchantment.DURABILITY, 3);
+			}});
+			arch.setDurability((short)(arch.getDurability()/2));
+
+			final ItemMeta archMeta = arch.getItemMeta();
+			archMeta.setDisplayName("Das Arch");
+			arch.setItemMeta(archMeta);
+
+			final ItemStack poke = new ItemStack(Material.ARROW);
+			poke.setAmount(1);
+
+			final ItemMeta pokeMeta = poke.getItemMeta();
+			pokeMeta.setDisplayName("Das Poke");
+			poke.setItemMeta(pokeMeta);
+
+			// Misc.
+
+			final ItemStack fire = new ItemStack(Material.FLINT_AND_STEEL);
+			fire.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.DURABILITY, 3);
+			}});
+			fire.setDurability((short)(fire.getDurability()/2));
+
+			final ItemMeta fireMeta = fire.getItemMeta();
+			fireMeta.setDisplayName("Das Fire");
+			fire.setItemMeta(fireMeta);
+
+			final ItemStack boom = new ItemStack(Material.TNT);
+			boom.setAmount(-1);
+
+			final ItemMeta boomMeta = boom.getItemMeta();
+			boomMeta.setDisplayName("Das Boom");
+			boom.setItemMeta(boomMeta);
+
+			final ItemStack snip = new ItemStack(Material.SHEARS);
+			snip.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.DURABILITY, 3);
+			}});
+			snip.setDurability((short)(snip.getDurability()/2));
+
+			final ItemMeta snipMeta = snip.getItemMeta();
+			snipMeta.setDisplayName("Das Snip");
+			snip.setItemMeta(snipMeta);
+
+			final ItemStack fish = new ItemStack(Material.FISHING_ROD);
+			fish.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.LUCK, 3);
+				put(Enchantment.LURE, 3);
+			}});
+			fish.setDurability((short)(fish.getDurability()/2));
+
+			final ItemMeta fishMeta = fish.getItemMeta();
+			fishMeta.setDisplayName("Das Fish");
+			fish.setItemMeta(fishMeta);
+
+			final ItemStack cool = new ItemStack(Material.WATER_BUCKET);
+
+			final ItemMeta coolMeta = cool.getItemMeta();
+			coolMeta.setDisplayName("Das Cool");
+			cool.setItemMeta(coolMeta);
+
+			// Ender pearls.
+
+			final ItemStack perl = new ItemStack(Material.ENDER_PEARL);
+			perl.setAmount(-1);
+
+			final ItemMeta perlMeta = perl.getItemMeta();
+			perlMeta.setDisplayName("Das Perl");
+			perl.setItemMeta(perlMeta);
+
+			// Food.
+
+			final ItemStack food = new ItemStack(Material.GOLDEN_CARROT);
+			food.setAmount(-1);
+
+			final ItemMeta foodMeta = food.getItemMeta();
+			foodMeta.setDisplayName("Das Food");
+			food.setItemMeta(foodMeta);
+
+			// Blocks.
+
+			final ItemStack dirt = new ItemStack(Material.DIRT);
+			dirt.setAmount(-1);
+
+			final ItemMeta dirtMeta = dirt.getItemMeta();
+			dirtMeta.setDisplayName("Das Dirt");
+			dirt.setItemMeta(dirtMeta);
+
+			// Assign things to slots.
+
+			final EntityEquipment equipment = player.getEquipment();
+
+			equipment.setHelmet(helm);
+			equipment.setChestplate(vest);
+			equipment.setLeggings(pant);
+			equipment.setBoots(boot);
+
+			inventory.setItem(0, silk);
+			inventory.setItem(27, luck);
+			inventory.setItem(1, hole);
+			inventory.setItem(28, chop);
+			inventory.setItem(2, food);
+			inventory.setItem(3, loot);
+			inventory.setItem(4, arch);
+			inventory.setItem(9, poke);
+			inventory.setItem(5, perl);
+			inventory.setItem(6, fire);
+			inventory.setItem(7, boom);
+			inventory.setItem(8, cool);
+			inventory.setItem(19, fish);
+			inventory.setItem(10, snip);
+			inventory.setItem(17, dirt);
+
+			player.setLevel(1337);
+
+			commandSender.sendMessage("§3Gave you some basic equipment to help you start on the quest to find diamonds to build diamond gear!");
+
+		} else {
+			commandSender.sendMessage("§cYou must be a player to use this command.");
+		}
+
+		return true;
 	}
 
 	public boolean example(CommandSender commandSender, Command command, String s, String[] strings) {

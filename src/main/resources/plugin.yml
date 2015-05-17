@@ -54,6 +54,11 @@ commands:
     usage: /<command> <message>
     permission: quickcommands.say
     permission-message: §cYou don't have permission.
+  stuff:
+    description: Gives a full inventory of enchanted gear.
+    usage: /<command>
+    permission: quickcommands.stuff
+    permission-message: §cYou don't have permission.
 permissions:
   quickcommands.colors:
     default: true
@@ -90,3 +95,6 @@ permissions:
   quickcommands.say:
     default: op
     description: Allows a player to use /say.
+  quickcommands.stuff:
+    default: false
+    description: Allows a player to use /stuff.
