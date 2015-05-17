@@ -7,12 +7,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Configuration class.
+ * Settings class.
  * Created by moltendorf on 14/09/03.
  *
  * @author moltendorf
  */
-public class Configuration {
+public class Settings {
 
 	static protected class Global {
 
@@ -128,7 +128,7 @@ public class Configuration {
 	// Final data.
 	final protected Global global = new Global();
 
-	public Configuration() {
+	public Settings() {
 		// Placeholder.
 	}
 }

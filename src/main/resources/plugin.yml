@@ -1,9 +1,9 @@
 name: QuickCommands
-version: 1.12.6
+version: 1.12.8
 description: Simplified versions of commands.
 author: moltendorf
 website: http://dev.bukkit.org/server-mods/moltendorf-quickcommands/
-main: net.moltendorf.Bukkit.QuickCommands.Plugin
+main: net.moltendorf.Bukkit.QuickCommands.QuickCommands
 commands:
   colors:
     description: Display all the colors usable in chat.

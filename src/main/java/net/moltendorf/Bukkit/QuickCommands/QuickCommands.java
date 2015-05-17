@@ -13,35 +13,33 @@ import java.lang.reflect.Method;
  *
  * @author moltendorf
  */
-public class Plugin extends JavaPlugin {
+public class QuickCommands extends JavaPlugin {
 
 	// Main instance.
-	public static Plugin instance = null;
+	private static QuickCommands instance = null;
 
 	// Variable data.
-	protected Configuration configuration = null;
-	protected Commands      commands      = null;
+	protected Settings settings = null;
+	protected Commands commands = null;
 
-	@Override
-	public synchronized void onDisable() {
-		instance = null;
+	public static QuickCommands getInstance() {
+		return instance;
 	}
 
 	@Override
 	public synchronized void onEnable() {
-		// Store reference to this.
 		instance = this;
 
-		// Construct new configuration.
-		configuration = new Configuration();
+		// Construct new settings.
+		settings = new Settings();
 
 		// Are we enabled?
-		if (!configuration.global.enabled) {
+		if (!settings.global.enabled) {
 			return;
 		}
 
 		// Create our commands instance.
-		commands = new Commands(this);
+		commands = new Commands();
 
 		// Register our commands.
 		for (final String methodName : getDescription().getCommands().keySet()) {
@@ -67,5 +65,10 @@ public class Plugin extends JavaPlugin {
 				exception.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public synchronized void onDisable() {
+		instance = null;
 	}
 }

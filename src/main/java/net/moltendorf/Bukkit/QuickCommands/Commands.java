@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Listener register.
@@ -17,12 +18,6 @@ import java.util.Collection;
  * @author moltendorf
  */
 public class Commands {
-
-	final protected Plugin plugin;
-
-	protected Commands(final Plugin instance) {
-		plugin = instance;
-	}
 
 	public boolean colors(CommandSender commandSender, Command command, String s, String[] strings) {
 		if (commandSender instanceof Player) {
@@ -50,12 +45,14 @@ public class Commands {
 				return false;
 			}
 
+			final QuickCommands instance = QuickCommands.getInstance();
+
 			Player player = (Player)commandSender;
 
 			ItemStack item = player.getItemInHand();
 			Material type = item.getType();
 
-			if (plugin.configuration.global.equipment.contains(type)) {
+			if (instance.settings.global.equipment.contains(type)) {
 				short max = item.getType().getMaxDurability();
 
 				if (strings.length == 1) {
@@ -76,7 +73,7 @@ public class Commands {
 							return false;
 						}
 					} else {
-						commandSender.sendMessage(plugin.getCommand(s).getPermissionMessage());
+						commandSender.sendMessage(instance.getCommand(s).getPermissionMessage());
 
 						return true;
 					}
@@ -111,7 +108,7 @@ public class Commands {
 				int unbreaking = item.getEnchantmentLevel(Enchantment.DURABILITY);
 
 				if (unbreaking > 0) {
-					if (plugin.configuration.global.tools.contains(type)) {
+					if (instance.settings.global.tools.contains(type)) {
 						// Tool unbreaking.
 						durability = (int)((double)durability/((100./((double)unbreaking + 1.))/100.));
 					} else {
@@ -149,20 +146,23 @@ public class Commands {
 	}
 
 	public boolean hide(CommandSender commandSender, Command command, String s, String[] strings) {
+		final QuickCommands instance = QuickCommands.getInstance();
+		final Server server = instance.getServer();
+
 		final Player player1, player2;
 
 		if (strings.length == 1) {
 			if (commandSender instanceof Player) {
 				player1 = (Player)commandSender;
-				player2 = plugin.getServer().getPlayerExact(strings[0]);
+				player2 = server.getPlayerExact(strings[0]);
 			} else {
 				commandSender.sendMessage("You must be a player to use this command with only one argument.");
 
 				return false;
 			}
 		} else if (strings.length == 2) {
-			player1 = plugin.getServer().getPlayerExact(strings[0]);
-			player2 = plugin.getServer().getPlayerExact(strings[1]);
+			player1 = server.getPlayerExact(strings[0]);
+			player2 = server.getPlayerExact(strings[1]);
 		} else {
 			commandSender.sendMessage("Invalid number of arguments.");
 
@@ -187,20 +187,23 @@ public class Commands {
 	}
 
 	public boolean show(CommandSender commandSender, Command command, String s, String[] strings) {
+		final QuickCommands instance = QuickCommands.getInstance();
+		final Server server = instance.getServer();
+
 		final Player player1, player2;
 
 		if (strings.length == 1) {
 			if (commandSender instanceof Player) {
 				player1 = (Player)commandSender;
-				player2 = plugin.getServer().getPlayerExact(strings[0]);
+				player2 = server.getPlayerExact(strings[0]);
 			} else {
 				commandSender.sendMessage("You must be a player to use this command with only one argument.");
 
 				return false;
 			}
 		} else if (strings.length == 2) {
-			player1 = plugin.getServer().getPlayerExact(strings[0]);
-			player2 = plugin.getServer().getPlayerExact(strings[1]);
+			player1 = server.getPlayerExact(strings[0]);
+			player2 = server.getPlayerExact(strings[1]);
 		} else {
 			commandSender.sendMessage("Invalid number of arguments.");
 
@@ -231,12 +234,15 @@ public class Commands {
 			return false;
 		}
 
-		final Player[] players;
+		final QuickCommands instance = QuickCommands.getInstance();
+		final Server server = instance.getServer();
+
+		final Collection<? extends Player> players;
 
 		if (strings[0].equals("*")) {
-			players = plugin.getServer().getOnlinePlayers();
+			players = server.getOnlinePlayers();
 		} else {
-			final Player player = plugin.getServer().getPlayer(strings[0]);
+			final Player player = server.getPlayer(strings[0]);
 
 			if (player == null) {
 				commandSender.sendMessage("Could not find player " + strings[0] + ".");
@@ -244,7 +250,7 @@ public class Commands {
 				return true;
 			}
 
-			players = new Player[]{player};
+			players = Collections.singletonList(player);
 		}
 
 		double max;
@@ -312,6 +318,9 @@ public class Commands {
 	}
 
 	public boolean name(CommandSender commandSender, Command command, String s, String[] strings) {
+		final QuickCommands instance = QuickCommands.getInstance();
+		final Server server = instance.getServer();
+
 		final Player player;
 		final String name;
 
@@ -325,7 +334,7 @@ public class Commands {
 				return false;
 			}
 		} else if (strings.length == 2) {
-			player = plugin.getServer().getPlayerExact(strings[0]);
+			player = server.getPlayerExact(strings[0]);
 
 			if (player == null) {
 				commandSender.sendMessage("Could not find player " + strings[0] + ".");
@@ -346,8 +355,11 @@ public class Commands {
 	}
 
 	public boolean drop(CommandSender commandSender, Command command, String s, String[] strings) {
+		final QuickCommands instance = QuickCommands.getInstance();
+		final Server server = instance.getServer();
+
 		if (strings.length == 2 || strings.length == 3) {
-			final Player player = plugin.getServer().getPlayer(strings[0]);
+			final Player player = server.getPlayer(strings[0]);
 
 			if (player == null) {
 				commandSender.sendMessage("Could not find player " + strings[0] + ".");
@@ -355,14 +367,12 @@ public class Commands {
 				return true;
 			}
 
-			final Plugin instance = Plugin.instance;
-			final Server server = instance.getServer();
 			final BukkitScheduler scheduler = server.getScheduler();
 
 			final Runnable teleport;
 
 			if (strings.length == 2) {
-				final OfflinePlayer toPlayer = plugin.getServer().getOfflinePlayer(strings[1]);
+				final OfflinePlayer toPlayer = server.getOfflinePlayer(strings[1]);
 
 				if (toPlayer == null || !toPlayer.hasPlayedBefore()) {
 					commandSender.sendMessage("Could not find player " + strings[1] + ".");
@@ -456,7 +466,10 @@ public class Commands {
 	}
 
 	public boolean cleanup(CommandSender commandSender, Command command, String s, String[] strings) {
-		for (final World world : Plugin.instance.getServer().getWorlds()) {
+		final QuickCommands instance = QuickCommands.getInstance();
+		final Server server = instance.getServer();
+
+		for (final World world : server.getWorlds()) {
 			final Collection<Arrow> arrows = world.getEntitiesByClass(Arrow.class);
 
 			int removed_arrows = 0;
@@ -480,8 +493,11 @@ public class Commands {
 	}
 
 	public boolean alert(CommandSender commandSender, Command command, String s, String[] strings) {
+		final QuickCommands instance = QuickCommands.getInstance();
+		final Server server = instance.getServer();
+
 		if (strings.length > 0) {
-			plugin.getServer().broadcastMessage("§8<§4Alert§8> §4" + String.join(" ", strings));
+			server.broadcastMessage("§8<§4Alert§8> §4" + String.join(" ", strings));
 
 			return true;
 		}
@@ -490,8 +506,11 @@ public class Commands {
 	}
 
 	public boolean broadcast(CommandSender commandSender, Command command, String s, String[] strings) {
+		final QuickCommands instance = QuickCommands.getInstance();
+		final Server server = instance.getServer();
+
 		if (strings.length > 0) {
-			plugin.getServer().broadcastMessage(String.join(" ", strings));
+			server.broadcastMessage(String.join(" ", strings));
 
 			return true;
 		}
@@ -500,8 +519,11 @@ public class Commands {
 	}
 
 	public boolean say(CommandSender commandSender, Command command, String s, String[] strings) {
+		final QuickCommands instance = QuickCommands.getInstance();
+		final Server server = instance.getServer();
+
 		if (strings.length > 0) {
-			plugin.getServer().broadcastMessage("§8<§3Console§8> §3" + String.join(" ", strings));
+			server.broadcastMessage("§8<§3Console§8> §3" + String.join(" ", strings));
 
 			return true;
 		}
