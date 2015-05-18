@@ -6,13 +6,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EntityEquipment;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 
 /**
  * Listener register.
@@ -535,12 +536,6 @@ public class Commands {
 
 	public boolean stuff(CommandSender commandSender, Command command, String s, String[] strings) {
 		if (commandSender instanceof Player) {
-			final Player player = (Player)commandSender;
-
-			final Inventory inventory = player.getInventory();
-
-			inventory.clear();
-
 			// Armor.
 
 			final ItemStack helm = new ItemStack(Material.DIAMOND_HELMET);
@@ -751,12 +746,16 @@ public class Commands {
 
 			// Assign things to slots.
 
-			final EntityEquipment equipment = player.getEquipment();
+			final Player player = (Player)commandSender;
 
-			equipment.setHelmet(helm);
-			equipment.setChestplate(vest);
-			equipment.setLeggings(pant);
-			equipment.setBoots(boot);
+			final PlayerInventory inventory = player.getInventory();
+
+			inventory.clear();
+
+			inventory.setHelmet(helm);
+			inventory.setChestplate(vest);
+			inventory.setLeggings(pant);
+			inventory.setBoots(boot);
 
 			inventory.setItem(0, silk);
 			inventory.setItem(27, luck);
