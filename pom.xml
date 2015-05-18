@@ -18,6 +18,29 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<minimizeJar>true</minimizeJar>
+							<relocations>
+								<relocation>
+									<pattern>me.desht.dhutils</pattern>
+									<shadedPattern>net.moltendorf.Bukkit.DHUtils</shadedPattern>
+								</relocation>
+							</relocations>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -26,12 +49,24 @@
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
 		</repository>
+
+		<repository>
+			<id>hawkfalcon-repo</id>
+			<name>Hawkfalcon Repository</name>
+			<url>http://ci.hawkfalcon.com/plugin/repository/everything/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
+			<version>LATEST</version>
+		</dependency>
+
+		<dependency>
+			<groupId>me.desht</groupId>
+			<artifactId>dhutils-lib</artifactId>
 			<version>LATEST</version>
 		</dependency>
 	</dependencies>
