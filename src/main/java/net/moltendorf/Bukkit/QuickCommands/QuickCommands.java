@@ -39,7 +39,7 @@ public class QuickCommands extends JavaPlugin {
 		settings = new Settings();
 
 		// Are we enabled?
-		if (!settings.global.enabled) {
+		if (!settings.enabled) {
 			return;
 		}
 

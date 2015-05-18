@@ -55,7 +55,7 @@ public class Commands {
 			ItemStack item = player.getItemInHand();
 			Material type = item.getType();
 
-			if (instance.settings.global.equipment.contains(type)) {
+			if (instance.settings.equipment.contains(type)) {
 				short max = item.getType().getMaxDurability();
 
 				if (strings.length == 1) {
@@ -111,7 +111,7 @@ public class Commands {
 				int unbreaking = item.getEnchantmentLevel(Enchantment.DURABILITY);
 
 				if (unbreaking > 0) {
-					if (instance.settings.global.tools.contains(type)) {
+					if (instance.settings.tools.contains(type)) {
 						// Tool unbreaking.
 						durability = (int)((double)durability/((100./((double)unbreaking + 1.))/100.));
 					} else {
