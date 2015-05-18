@@ -800,7 +800,9 @@ public class Commands {
 		if (commandSender instanceof Player) {
 			final Player player = (Player)commandSender;
 
-			PlayerBackupManager.restore(player);
+			if (!PlayerBackupManager.restore(player)) {
+				commandSender.sendMessage("§cNo backups.");
+			}
 		} else {
 			commandSender.sendMessage("§cYou must be a player to use this command.");
 		}
