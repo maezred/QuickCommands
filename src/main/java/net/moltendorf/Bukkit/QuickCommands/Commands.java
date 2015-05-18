@@ -581,6 +581,7 @@ public class Commands {
 
 			final ItemStack boot = new ItemStack(Material.DIAMOND_BOOTS);
 			boot.addEnchantments(new LinkedHashMap<Enchantment, Integer>() {{
+				put(Enchantment.DEPTH_STRIDER, 3);
 				put(Enchantment.PROTECTION_FALL, 4);
 				put(Enchantment.DURABILITY, 3);
 				put(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
