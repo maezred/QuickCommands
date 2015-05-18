@@ -13,6 +13,9 @@ import java.util.Set;
  * @author moltendorf
  */
 public class Settings {
+	protected static Settings getInstance() {
+		return QuickCommands.getInstance().settings;
+	}
 
 	// Final data.
 	final protected boolean enabled = true; // Whether or not the plugin is enabled at all; interface mode.
