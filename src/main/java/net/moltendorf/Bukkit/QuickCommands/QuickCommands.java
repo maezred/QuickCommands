@@ -35,7 +35,15 @@ public class QuickCommands extends JavaPlugin {
 	public synchronized void onEnable() {
 		instance = this;
 
-		saveDefaultConfig();
+		final Server server = getServer();
+
+		if (!getDataFolder().exists()) {
+			getConfig().set("creative-inventory", server.getDefaultGameMode() != GameMode.CREATIVE);
+
+			saveConfig();
+		} else {
+			saveDefaultConfig();
+		}
 
 		// Construct new settings.
 		settings = new Settings();
@@ -73,8 +81,6 @@ public class QuickCommands extends JavaPlugin {
 				exception.printStackTrace();
 			}
 		}
-
-		final Server server = getServer();
 
 		// Register our listeners.
 		server.getPluginManager().registerEvents(new Listeners(), this);
