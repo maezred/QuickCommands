@@ -35,6 +35,8 @@ public class QuickCommands extends JavaPlugin {
 	public synchronized void onEnable() {
 		instance = this;
 
+		saveDefaultConfig();
+
 		// Construct new settings.
 		settings = new Settings();
 
