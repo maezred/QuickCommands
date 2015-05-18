@@ -79,7 +79,9 @@ public class QuickCommands extends JavaPlugin {
 		// Register our listeners.
 		server.getPluginManager().registerEvents(new Listeners(), this);
 
-		server.getOnlinePlayers().stream().filter(player -> player.getGameMode() == GameMode.CREATIVE).forEach(PlayerBackupManager::backup);
+		if (settings.creativeInventory) {
+			server.getOnlinePlayers().stream().filter(player -> player.getGameMode() == GameMode.CREATIVE).forEach(PlayerBackupManager::backup);
+		}
 	}
 
 	@Override
