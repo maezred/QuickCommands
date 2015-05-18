@@ -59,6 +59,29 @@ commands:
     usage: /<command>
     permission: quickcommands.stuff
     permission-message: §cYou don't have permission.
+  inventory-backup:
+    aliases: ib
+    description: |
+      Temporarily backup your inventory.
+      Using this command repeatedly will add more backups.
+
+      To restore your inventory, use: /inventory-restore.
+
+      §4When you quit, the first backup will be restored and all backups will be cleared.
+    usage: /<command>
+    permission: quickcommands.inventory
+    permission-message: §cYou don't have permission.
+  inventory-restore:
+    aliases: ir
+    description: |
+      Restore your inventory to the most recent backup and remove that backup.
+
+      To backup your inventory, use: /inventory-backup.
+
+      §4When you quit, the first backup will be restored and all backups will be cleared.
+    usage: /<command>
+    permission: quickcommands.inventory
+    permission-message: §cYou don't have permission.
 permissions:
   quickcommands.colors:
     default: true
@@ -98,3 +121,6 @@ permissions:
   quickcommands.stuff:
     default: false
     description: Allows a player to use /stuff.
+  quickcommands.inventory:
+    default: op
+    description: Allows a player to use /inventory-backup and /inventory-restore.

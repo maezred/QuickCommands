@@ -150,7 +150,7 @@ public class Commands {
 
 	public boolean hide(CommandSender commandSender, Command command, String s, String[] strings) {
 		final QuickCommands instance = QuickCommands.getInstance();
-		final Server server = instance.getServer();
+		final Server        server   = instance.getServer();
 
 		final Player player1, player2;
 
@@ -191,7 +191,7 @@ public class Commands {
 
 	public boolean show(CommandSender commandSender, Command command, String s, String[] strings) {
 		final QuickCommands instance = QuickCommands.getInstance();
-		final Server server = instance.getServer();
+		final Server        server   = instance.getServer();
 
 		final Player player1, player2;
 
@@ -238,7 +238,7 @@ public class Commands {
 		}
 
 		final QuickCommands instance = QuickCommands.getInstance();
-		final Server server = instance.getServer();
+		final Server        server   = instance.getServer();
 
 		final Collection<? extends Player> players;
 
@@ -322,7 +322,7 @@ public class Commands {
 
 	public boolean name(CommandSender commandSender, Command command, String s, String[] strings) {
 		final QuickCommands instance = QuickCommands.getInstance();
-		final Server server = instance.getServer();
+		final Server        server   = instance.getServer();
 
 		final Player player;
 		final String name;
@@ -359,7 +359,7 @@ public class Commands {
 
 	public boolean drop(CommandSender commandSender, Command command, String s, String[] strings) {
 		final QuickCommands instance = QuickCommands.getInstance();
-		final Server server = instance.getServer();
+		final Server        server   = instance.getServer();
 
 		if (strings.length == 2 || strings.length == 3) {
 			final Player player = server.getPlayer(strings[0]);
@@ -470,7 +470,7 @@ public class Commands {
 
 	public boolean cleanup(CommandSender commandSender, Command command, String s, String[] strings) {
 		final QuickCommands instance = QuickCommands.getInstance();
-		final Server server = instance.getServer();
+		final Server        server   = instance.getServer();
 
 		for (final World world : server.getWorlds()) {
 			final Collection<Arrow> arrows = world.getEntitiesByClass(Arrow.class);
@@ -497,7 +497,7 @@ public class Commands {
 
 	public boolean alert(CommandSender commandSender, Command command, String s, String[] strings) {
 		final QuickCommands instance = QuickCommands.getInstance();
-		final Server server = instance.getServer();
+		final Server        server   = instance.getServer();
 
 		if (strings.length > 0) {
 			server.broadcastMessage("§8<§4Alert§8> §4" + String.join(" ", strings));
@@ -510,7 +510,7 @@ public class Commands {
 
 	public boolean broadcast(CommandSender commandSender, Command command, String s, String[] strings) {
 		final QuickCommands instance = QuickCommands.getInstance();
-		final Server server = instance.getServer();
+		final Server        server   = instance.getServer();
 
 		if (strings.length > 0) {
 			server.broadcastMessage(String.join(" ", strings));
@@ -523,7 +523,7 @@ public class Commands {
 
 	public boolean say(CommandSender commandSender, Command command, String s, String[] strings) {
 		final QuickCommands instance = QuickCommands.getInstance();
-		final Server server = instance.getServer();
+		final Server        server   = instance.getServer();
 
 		if (strings.length > 0) {
 			server.broadcastMessage("§8<§3Console§8> §3" + String.join(" ", strings));
@@ -777,6 +777,30 @@ public class Commands {
 
 			commandSender.sendMessage("§3Gave you some basic equipment to help you start on the quest to find diamonds to build diamond gear!");
 
+		} else {
+			commandSender.sendMessage("§cYou must be a player to use this command.");
+		}
+
+		return true;
+	}
+
+	public boolean inventory_backup(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (commandSender instanceof Player) {
+			final Player player = (Player)commandSender;
+
+			PlayerBackupManager.backup(player);
+		} else {
+			commandSender.sendMessage("§cYou must be a player to use this command.");
+		}
+
+		return true;
+	}
+
+	public boolean inventory_restore(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (commandSender instanceof Player) {
+			final Player player = (Player)commandSender;
+
+			PlayerBackupManager.restore(player);
 		} else {
 			commandSender.sendMessage("§cYou must be a player to use this command.");
 		}
