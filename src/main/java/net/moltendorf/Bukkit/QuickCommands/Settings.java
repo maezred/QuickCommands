@@ -125,7 +125,9 @@ public class Settings {
 		Material.FLINT_AND_STEEL
 	));
 
+	final protected boolean creativeInventory;
+
 	public Settings() {
-		// Placeholder.
+		creativeInventory = QuickCommands.getInstance().getConfig().getBoolean("creative-inventory", true);
 	}
 }

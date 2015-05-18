@@ -16,23 +16,27 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class Listeners implements Listener {
 	@EventHandler(ignoreCancelled = true)
 	public void PlayerGameModeChangeEventHandler(final PlayerGameModeChangeEvent event) {
-		final Player player = event.getPlayer();
-		final GameMode gameMode = player.getGameMode();
-		final GameMode newGameMode = event.getNewGameMode();
+		if (Settings.getInstance().creativeInventory) {
+			final Player player = event.getPlayer();
+			final GameMode gameMode = player.getGameMode();
+			final GameMode newGameMode = event.getNewGameMode();
 
-		if (gameMode != GameMode.CREATIVE && newGameMode == GameMode.CREATIVE) {
-			PlayerBackupManager.backup(player, true);
-		} else if (gameMode == GameMode.CREATIVE && newGameMode != GameMode.CREATIVE) {
-			PlayerBackupManager.restore(player);
+			if (gameMode != GameMode.CREATIVE && newGameMode == GameMode.CREATIVE) {
+				PlayerBackupManager.backup(player, true);
+			} else if (gameMode == GameMode.CREATIVE && newGameMode != GameMode.CREATIVE) {
+				PlayerBackupManager.restore(player);
+			}
 		}
 	}
 
 	@EventHandler
 	public void PlayerJoinEventHandler(final PlayerJoinEvent event) {
-		final Player player = event.getPlayer();
+		if (Settings.getInstance().creativeInventory) {
+			final Player player = event.getPlayer();
 
-		if (player.getGameMode() == GameMode.CREATIVE) {
-			PlayerBackupManager.backup(player, true);
+			if (player.getGameMode() == GameMode.CREATIVE) {
+				PlayerBackupManager.backup(player, true);
+			}
 		}
 	}
 
