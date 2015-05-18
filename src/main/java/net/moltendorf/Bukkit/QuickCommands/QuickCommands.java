@@ -68,7 +68,7 @@ public class QuickCommands extends JavaPlugin {
 				};
 
 				getCommand(commandName).setExecutor(executor);
-			} catch (NoSuchMethodException|NullPointerException exception) {
+			} catch (NoSuchMethodException | NullPointerException exception) {
 				getLogger().info("Failed to enable command: /" + commandName + ".");
 				exception.printStackTrace();
 			}
