@@ -4,16 +4,14 @@ import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Listener register.
@@ -472,24 +470,227 @@ public class Commands {
 		final QuickCommands instance = QuickCommands.getInstance();
 		final Server        server   = instance.getServer();
 
-		for (final World world : server.getWorlds()) {
-			final Collection<Arrow> arrows = world.getEntitiesByClass(Arrow.class);
+		boolean success = false;
 
-			int removed_arrows = 0;
+		final List<String> arguments = new LinkedList<>(Arrays.asList(strings));
 
-			for (final Arrow arrow : arrows) {
-				if (arrow.getTicksLived() > 15*20) {
-					arrow.remove();
+		final Iterable<World>    worlds;
+		final Collection<Entity> entities;
 
-					++removed_arrows;
+		if (commandSender instanceof Player) {
+			final int radius;
+
+			if (strings.length > 0 && strings[0].matches("^(?:-1|[0-9]+)$")) {
+				radius = Integer.parseInt(arguments.remove(0));
+			} else {
+				radius = 25;
+			}
+
+			if (radius == -1) {
+				worlds = server.getWorlds();
+				entities = null;
+			} else {
+				final Player player = ((Player)commandSender);
+
+				worlds = Collections.singletonList(player.getWorld());
+				entities = player.getNearbyEntities(radius, radius, radius);
+			}
+		} else {
+			worlds = server.getWorlds();
+			entities = null;
+		}
+
+		if (arguments.size() == 0) {
+			return false;
+		}
+
+		for (final World world : worlds) {
+			for (final String type : arguments) {
+				final Class clazz;
+
+				Collection<Entity> collection = null;
+				String display = null;
+
+				switch (type.toLowerCase()) {
+					case "arrow":
+					case "arrows":
+					case "pin":
+					case "pins":
+					case "fleshprobedevices":
+						clazz = Arrow.class;
+						break;
+
+					case "bat":
+					case "batties":
+					case "bats":
+					case "batsies":
+					case "batman":
+					case "batmobile":
+					case "batwoman":
+					case "batcycle":
+						clazz = Bat.class;
+						break;
+
+					case "pig":
+					case "pigs":
+					case "piggies":
+					case "pigsies":
+						clazz = Pig.class;
+						break;
+
+					case "sheep":
+					case "sheeps":
+					case "sheepies":
+					case "sheepsies":
+						clazz = Sheep.class;
+						break;
+
+					case "cow":
+					case "cows":
+					case "cowsies":
+					case "calf":
+					case "calves":
+						clazz = Cow.class;
+						break;
+
+					case "chicken":
+					case "chickens":
+					case "chick":
+					case "chicks":
+					case "duck":
+					case "ducks":
+					case "duckies":
+						clazz = Chicken.class;
+						break;
+
+					case "squid":
+					case "squids":
+					case "octopus":
+					case "octopuses":
+					case "octopi":
+					case "tentacles":
+						clazz = Squid.class;
+						break;
+
+					case "wolf":
+					case "wolves":
+					case "wolfs":
+					case "wolfy":
+					case "wolfies":
+					case "dawolfsclaw":
+					case "dawoofsclaw":
+						clazz = Wolf.class;
+						break;
+
+					case "mooshroom":
+					case "mooshrooms":
+					case "mushroomcow":
+					case "mushroomcows":
+					case "mushroom":
+					case "mushrooms":
+					case "shroom":
+					case "shrooms":
+					case "trip":
+						clazz = MushroomCow.class;
+						break;
+
+					case "snowgolem":
+					case "snowman":
+					case "snowmen":
+					case "snowwoman":
+					case "snowwomen":
+					case "snowlady":
+					case "snoshadow":
+					case "sno":
+					case "snow":
+						clazz = Snowman.class;
+						break;
+
+					case "ocelot":
+					case "ocelots":
+					case "cat":
+					case "cats":
+					case "kitty":
+					case "kitties":
+					case "kittens":
+					case "pussy":
+					case "pussycat":
+					case "pussys":
+					case "pussies":
+						clazz = Ocelot.class;
+						break;
+
+					case "irongolem":
+					case "iron":
+					case "ironman":
+					case "flipper":
+					case "flippin":
+					case "flipyou":
+					case "rose":
+					case "rosebud":
+					case "redflower":
+					case "red":
+					case "peaceofficer":
+					case "police":
+					case "popo":
+					case "po":
+						clazz = IronGolem.class;
+						break;
+
+					case "horse":
+					case "horses":
+					case "horsies":
+					case "raisin":
+					case "neigh":
+						clazz = Horse.class;
+						break;
+
+					case "rabbit":
+					case "rabbits":
+					case "bunny":
+					case "bunnies":
+					case "wabbit":
+					case "wabbits":
+						clazz = Rabbit.class;
+						break;
+
+					case "villager":
+					case "villagers":
+					case "squidward":
+					case "squidwards":
+						clazz = Villager.class;
+						break;
+
+					default:
+						clazz = null;
+
+						commandSender.sendMessage("§cNo type known by: " + type + ".");
+				}
+
+				if (clazz != null) {
+					if (entities == null) {
+						collection = world.getEntitiesByClass(clazz);
+					} else {
+						collection = entities.stream().filter(clazz::isInstance).collect(Collectors.toList());
+					}
+
+					collection.forEach(Entity::remove);
+
+					if (display == null) {
+						display = clazz.getSimpleName().toLowerCase() + (collection.size() > 1 ? "s" : "");
+					}
+				}
+
+				if (collection != null && collection.size() > 0) {
+					commandSender.sendMessage("§2Found and cleaned up " + collection.size() + " " + display + " in " + world.getName() + ".");
+
+					success = true;
 				}
 			}
+		}
 
-			if (removed_arrows > 0) {
-				final String plural = removed_arrows > 1 ? "s" : "";
-
-				commandSender.sendMessage("§2Found and cleaned up " + arrows.size() + " arrow" + plural + " in " + world.getName() + ".");
-			}
+		if (!success) {
+			commandSender.sendMessage("§cDid not find anything to cleanup.");
 		}
 
 		return true;

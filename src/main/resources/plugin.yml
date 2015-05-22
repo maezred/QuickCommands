@@ -36,7 +36,7 @@ commands:
     permission-message: §cYou don't have permission.
   cleanup:
     description: Cleanup broken entities (currently only does arrows).
-    usage: /<command>
+    usage: /<command> [<radius>] <type> [<type>...]
     permission: quickcommands.cleanup
     permission-message: §cYou don't have permission.
   alert:
