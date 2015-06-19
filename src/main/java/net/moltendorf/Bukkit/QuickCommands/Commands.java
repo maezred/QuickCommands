@@ -229,7 +229,7 @@ public class Commands {
 	}
 
 	public boolean health(CommandSender commandSender, Command command, String s, String[] strings) {
-		if (strings.length < 2 || strings.length > 4) {
+		if (strings.length < 1 || strings.length > 4) {
 			commandSender.sendMessage("Invalid number of arguments.");
 
 			return false;
@@ -241,12 +241,26 @@ public class Commands {
 		final Collection<? extends Player> players;
 
 		if (strings[0].equals("*")) {
+			if (strings.length < 2) {
+				commandSender.sendMessage("Invalid number of arguments.");
+
+				return false;
+			}
+
 			players = server.getOnlinePlayers();
 		} else {
 			final Player player = server.getPlayer(strings[0]);
 
 			if (player == null) {
 				commandSender.sendMessage("Could not find player " + strings[0] + ".");
+
+				return true;
+			}
+
+			if (strings.length == 1) {
+				commandSender.sendMessage("Max health is " + player.getMaxHealth());
+				commandSender.sendMessage("Health scale is " + player.getHealthScale());
+				commandSender.sendMessage("Health is " + player.getHealth());
 
 				return true;
 			}
