@@ -568,6 +568,7 @@ public class Commands {
 					case "octopus":
 					case "octopuses":
 					case "octopi":
+					case "tentacle":
 					case "tentacles":
 						clazz = Squid.class;
 						break;
