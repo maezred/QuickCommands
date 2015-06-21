@@ -1,10 +1,12 @@
 package net.moltendorf.Bukkit.QuickCommands;
 
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.InvocationTargetException;
@@ -109,6 +111,16 @@ public class QuickCommands extends JavaPlugin {
 		}
 
 		PlayerBackupManager.inventories.clear();
+
+		for (final Map.Entry<UUID, Location> entry : SpectatorManager.spectators.entrySet()) {
+			final Player player = getServer().getPlayer(entry.getKey());
+			final Location location = entry.getValue();
+
+			player.teleport(location);
+			player.setGameMode(GameMode.SURVIVAL);
+		}
+
+		SpectatorManager.spectators.clear();
 
 		instance = null;
 	}

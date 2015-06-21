@@ -1026,6 +1026,24 @@ public class Commands {
 		return true;
 	}
 
+	public boolean spectate(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (commandSender instanceof Player) {
+			final Player player = (Player)commandSender;
+
+			if (SpectatorManager.contains(player)) {
+				SpectatorManager.remove(player);
+				commandSender.sendMessage("§7You are no longer spectating.");
+			} else {
+				SpectatorManager.put(player);
+				commandSender.sendMessage("§2You are now spectating.");
+			}
+		} else {
+			commandSender.sendMessage("§cYou must be a player to use this command.");
+		}
+
+		return true;
+	}
+
 	public boolean example(CommandSender commandSender, Command command, String s, String[] strings) {
 		return false;
 	}

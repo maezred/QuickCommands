@@ -43,5 +43,6 @@ public class Listeners implements Listener {
 	@EventHandler
 	public void PlayerQuitEventHandler(final PlayerQuitEvent event) {
 		PlayerBackupManager.remove(event.getPlayer());
+		SpectatorManager.remove(event.getPlayer());
 	}
 }

@@ -82,6 +82,12 @@ commands:
     usage: /<command>
     permission: quickcommands.inventory
     permission-message: §cYou don't have permission.
+  spectate:
+    aliases: [s, spec]
+    description: Puts a player into spectator mode.
+    usage: /<command>
+    permission: quickcommands.spectate
+    permission-message: §cYou don't have permission.
 permissions:
   quickcommands.colors:
     default: true
@@ -123,4 +129,7 @@ permissions:
     description: Allows a player to use /stuff.
   quickcommands.inventory:
     default: op
+    description: Allows a player to use /inventory-backup and /inventory-restore.
+  quickcommands.spectate:
+    default: true
     description: Allows a player to use /inventory-backup and /inventory-restore.
