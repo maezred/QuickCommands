@@ -57,6 +57,8 @@ public class PlayerBackup {
 
 		(new ExperienceManager(player)).setExp(experience);
 
+		player.updateInventory();
+
 		player.sendMessage("§2Your inventory has been restored.");
 	}
 }
