@@ -6,7 +6,7 @@
 
 	<groupId>net.moltendorf.Bukkit</groupId>
 	<artifactId>QuickCommands</artifactId>
-	<version>1.18.2</version>
+	<version>1.18.4</version>
 
 	<name>${artifactId}</name>
 	<description>Simplified versions of commands.</description>
