@@ -25,6 +25,10 @@ public class QuickCommands extends JavaPlugin {
 	// Main instance.
 	private static QuickCommands instance = null;
 
+	// Class loader checks.
+	protected static boolean LoadedPlayerBackupManager = false;
+	protected static boolean LoadedSpectatorManager    = false;
+
 	// Variable data.
 	protected Settings settings = null;
 	protected Commands commands = null;
@@ -96,31 +100,35 @@ public class QuickCommands extends JavaPlugin {
 
 	@Override
 	public synchronized void onDisable() {
-		for (final Map.Entry<UUID, Stack<PlayerBackup>> entry : PlayerBackupManager.inventories.entrySet()) {
-			final Stack<PlayerBackup> backups = entry.getValue();
+		if (LoadedPlayerBackupManager) {
+			for (final Map.Entry<UUID, Stack<PlayerBackup>> entry : PlayerBackupManager.inventories.entrySet()) {
+				final Stack<PlayerBackup> backups = entry.getValue();
 
-			PlayerBackup backup = null;
+				PlayerBackup backup = null;
 
-			while (!backups.empty()) {
-				backup = backups.pop();
+				while (!backups.empty()) {
+					backup = backups.pop();
+				}
+
+				if (backup != null) {
+					backup.restore(getServer().getPlayer(entry.getKey()));
+				}
 			}
 
-			if (backup != null) {
-				backup.restore(getServer().getPlayer(entry.getKey()));
+			PlayerBackupManager.inventories.clear();
+		}
+
+		if (LoadedSpectatorManager) {
+			for (final Map.Entry<UUID, Location> entry : SpectatorManager.spectators.entrySet()) {
+				final Player player = getServer().getPlayer(entry.getKey());
+				final Location location = entry.getValue();
+
+				player.teleport(location);
+				player.setGameMode(GameMode.SURVIVAL);
 			}
+
+			SpectatorManager.spectators.clear();
 		}
-
-		PlayerBackupManager.inventories.clear();
-
-		for (final Map.Entry<UUID, Location> entry : SpectatorManager.spectators.entrySet()) {
-			final Player player = getServer().getPlayer(entry.getKey());
-			final Location location = entry.getValue();
-
-			player.teleport(location);
-			player.setGameMode(GameMode.SURVIVAL);
-		}
-
-		SpectatorManager.spectators.clear();
 
 		instance = null;
 	}

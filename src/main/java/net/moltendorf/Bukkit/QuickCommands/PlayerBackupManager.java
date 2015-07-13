@@ -10,6 +10,10 @@ import java.util.*;
  * @author moltendorf
  */
 public class PlayerBackupManager {
+	static {
+		QuickCommands.LoadedPlayerBackupManager = true;
+	}
+
 	final protected static Map<UUID, Stack<PlayerBackup>> inventories = new LinkedHashMap<>();
 
 	protected static boolean contains(final Player player) {

@@ -14,6 +14,10 @@ import java.util.UUID;
  * @author moltendorf
  */
 public class SpectatorManager {
+	static {
+		QuickCommands.LoadedSpectatorManager = true;
+	}
+
 	final protected static Map<UUID, Location> spectators = new LinkedHashMap<>();
 
 	protected static boolean contains(final Player player) {
