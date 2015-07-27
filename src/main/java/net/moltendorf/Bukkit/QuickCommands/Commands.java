@@ -382,8 +382,9 @@ public class Commands {
 				return true;
 			}
 
-			final BukkitScheduler scheduler = server.getScheduler();
+			final boolean countdown;
 
+			final BukkitScheduler scheduler = server.getScheduler();
 			final Runnable teleport;
 
 			if (strings.length == 2) {
@@ -395,29 +396,42 @@ public class Commands {
 					return true;
 				}
 
+				final Location strike, next;
+
+				if (!toPlayer.getUniqueId().equals(player.getUniqueId()) && toPlayer.isOnline()) {
+					strike = toPlayer.getPlayer().getLocation();
+
+					if (toPlayer.getPlayer().getWorld().getName().equals("world")) {
+						countdown = true;
+						next = strike.add(0, 600, 0);
+					} else {
+						countdown = false;
+						next = strike;
+					}
+				} else {
+					countdown = false;
+					next = strike = toPlayer.getBedSpawnLocation();
+				}
+
 				teleport = () -> {
 					final Location previous = player.getLocation();
-					final Location location;
 
-					if (!toPlayer.getUniqueId().equals(player.getUniqueId()) && toPlayer.isOnline() && toPlayer.getPlayer().getWorld().getName().equals
-						("world")) {
-						location = toPlayer.getPlayer().getLocation();
-					} else {
-						location = toPlayer.getBedSpawnLocation();
-					}
-
-					location.setY(600);
-
-					player.teleport(location);
+					player.teleport(next);
 
 					scheduler.runTaskLater(instance, () -> {
-						player.sendMessage("§2Phase jump to drop pod successful.");
+						if (countdown) {
+							player.sendMessage("§2Phase jump to drop pod successful.");
+						} else {
+							player.sendMessage("§2Phase jump successful.");
+						}
 
 						previous.getWorld().strikeLightningEffect(previous);
-						location.getWorld().strikeLightningEffect(location);
+						next.getWorld().strikeLightningEffect(strike);
 					}, 5);
 				};
 			} else {
+				countdown = true;
+
 				final int x;
 
 				try {
@@ -439,40 +453,44 @@ public class Commands {
 				}
 
 				teleport = () -> {
+					final World world = server.getWorld("world");
 					final Location previous = player.getLocation();
-					final Location location = new Location(server.getWorld("world"), x, 600, z);
+					final Location strike = new Location(world, x, world.getHighestBlockYAt(x, z), z);
+					final Location next = strike.add(0, 600, 0);
 
-					player.teleport(location);
+					player.teleport(next);
 
 					scheduler.runTaskLater(instance, () -> {
 						player.sendMessage("§2Phase jump to drop pod successful.");
 
 						previous.getWorld().strikeLightningEffect(previous);
-						location.getWorld().strikeLightningEffect(location);
+						next.getWorld().strikeLightningEffect(strike);
 					}, 5);
 				};
 			}
 
-			player.sendMessage("§4Preparing phase jump to drop pod.");
-			player.sendMessage("§2Phase jump in 5.");
-
-			scheduler.runTaskLater(instance, () -> {
-				player.sendMessage("§2Phase jump in 4.");
+			if (countdown) {
+				player.sendMessage("§4Preparing phase jump to drop pod.");
+				player.sendMessage("§2Phase jump in 5.");
 
 				scheduler.runTaskLater(instance, () -> {
-					player.sendMessage("§2Phase jump in 3.");
+					player.sendMessage("§2Phase jump in 4.");
 
 					scheduler.runTaskLater(instance, () -> {
-						player.sendMessage("§2Phase jump in 2.");
+						player.sendMessage("§2Phase jump in 3.");
 
 						scheduler.runTaskLater(instance, () -> {
-							player.sendMessage("§2Phase jump in 1.");
+							player.sendMessage("§2Phase jump in 2.");
 
-							scheduler.runTaskLater(instance, teleport, 20);
+							scheduler.runTaskLater(instance, () -> {
+								player.sendMessage("§2Phase jump in 1.");
+
+								scheduler.runTaskLater(instance, teleport, 20);
+							}, 20);
 						}, 20);
 					}, 20);
 				}, 20);
-			}, 20);
+			}
 
 			return true;
 		}
