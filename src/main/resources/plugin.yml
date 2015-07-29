@@ -87,6 +87,11 @@ commands:
     usage: /<command>
     permission: quickcommands.spectate
     permission-message: §cYou don't have permission.
+  setplayerspawn:
+    description: Sets a player's permanent spawn point to their current location.
+    usage: /<command> <player>
+    permission: quickcommands.setplayerspawn
+    permission-message: §cYou don't have permission.
 permissions:
   quickcommands.colors:
     default: true
@@ -132,3 +137,6 @@ permissions:
   quickcommands.spectate:
     default: true
     description: Allows a player to use /inventory-backup and /inventory-restore.
+  quickcommands.setplayerspawn:
+    default: op
+    description: Allows a player to use /setplayerspawn.

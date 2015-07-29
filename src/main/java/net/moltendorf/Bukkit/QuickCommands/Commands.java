@@ -1093,6 +1093,35 @@ public class Commands {
 		return true;
 	}
 
+	public boolean setplayerspawn(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (strings.length == 1) {
+			final Player player = QuickCommands.getInstance().getServer().getPlayerExact(strings[0]);
+
+			if (player == null) {
+				commandSender.sendMessage("§cCould not find player " + strings[0] + ".");
+
+				return true;
+			}
+
+			if (player.getWorld().getName().equals("world")) {
+				final Location spawn = player.getLocation();
+
+				QuickCommands.getInstance().getServer().getConsoleSender().sendMessage(
+					"§3Set " + player.getName() + "'s permanent spawn point to " +
+						spawn.getBlockX() + "/" + spawn.getBlockY() + "/" + spawn.getBlockZ() + " in Overworld.");
+				player.sendMessage("§3Your permanent spawn point has been set to " +
+					spawn.getBlockX() + "/" + spawn.getBlockY() + "/" + spawn.getBlockZ() + " in Overworld.");
+				Settings.getInstance().getStorage().setSpawnForPlayer(player, spawn);
+			} else {
+				commandSender.sendMessage("§cPlayer " + strings[0] + " most be in Overworld.");
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
 	public boolean example(CommandSender commandSender, Command command, String s, String[] strings) {
 		return false;
 	}
