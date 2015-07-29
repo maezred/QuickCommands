@@ -92,9 +92,9 @@ public class MySQL extends AbstractStorage {
 					"(id, x, y, z, yaw, world) " +
 					"values (UNHEX(?), ?, ?, ?, ?, ?) " +
 					"on duplicate key update " +
-					"x = ? " +
-					"y = ? " +
-					"z = ? " +
+					"x = ?, " +
+					"y = ?, " +
+					"z = ?, " +
 					"yaw = ?"
 			);
 
