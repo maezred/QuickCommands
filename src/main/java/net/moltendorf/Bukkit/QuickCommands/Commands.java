@@ -1,5 +1,6 @@
 package net.moltendorf.Bukkit.QuickCommands;
 
+import net.moltendorf.Bukkit.QuickCommands.storage.AbstractStorage;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -397,20 +398,36 @@ public class Commands {
 				}
 
 				final Location strike, next;
+				Location spawn;
 
-				if (!toPlayer.getUniqueId().equals(player.getUniqueId()) && toPlayer.isOnline()) {
-					strike = toPlayer.getPlayer().getLocation();
+				if (!toPlayer.getUniqueId().equals(player.getUniqueId())) {
+					if (toPlayer.isOnline()) {
+						strike = toPlayer.getPlayer().getLocation();
 
-					if (toPlayer.getPlayer().getWorld().getName().equals("world")) {
-						countdown = true;
-						next = strike.add(0, 600, 0);
+						if (toPlayer.getPlayer().getWorld().getName().equals("world")) {
+							countdown = true;
+							next = strike.add(0, 600, 0);
+						} else {
+							countdown = false;
+							next = strike;
+						}
 					} else {
 						countdown = false;
-						next = strike;
+						next = strike = toPlayer.getBedSpawnLocation();
+					}
+
+					// Sync these two players' spawn points.
+					AbstractStorage storage = Settings.getInstance().getStorage();
+					spawn = storage.getSpawnForPlayer(toPlayer, server.getWorld("world"));
+
+					if (spawn != null) {
+						storage.setSpawnForPlayer(player, spawn);
 					}
 				} else {
 					countdown = false;
 					next = strike = toPlayer.getBedSpawnLocation();
+
+					// Don't change their spawn point.
 				}
 
 				teleport = () -> {
@@ -452,10 +469,14 @@ public class Commands {
 					return false;
 				}
 
+				final World world = server.getWorld("world");
+				final Location strike = new Location(world, x, world.getHighestBlockYAt(x, z), z);
+
+				// Set new spawn point.
+				Settings.getInstance().getStorage().setSpawnForPlayer(player, strike);
+
 				teleport = () -> {
-					final World world = server.getWorld("world");
 					final Location previous = player.getLocation();
-					final Location strike = new Location(world, x, world.getHighestBlockYAt(x, z), z);
 					final Location next = strike.add(0, 600, 0);
 
 					player.teleport(next);

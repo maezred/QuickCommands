@@ -3,9 +3,9 @@ package net.moltendorf.Bukkit.QuickCommands.storage;
 import net.moltendorf.Bukkit.QuickCommands.QuickCommands;
 import net.moltendorf.Bukkit.QuickCommands.Settings;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
 
 import java.sql.*;
 
@@ -74,7 +74,7 @@ public class MySQL extends AbstractStorage {
 	}
 
 	@Override
-	public void setSpawnForPlayer(final Player player, final Location location) {
+	public void setSpawnForPlayer(final OfflinePlayer player, final Location location) {
 		final String id = player.getUniqueId().toString().replace("-", "");
 
 		double x, y, z;
@@ -119,9 +119,8 @@ public class MySQL extends AbstractStorage {
 	}
 
 	@Override
-	public Location getSpawnForPlayer(final Player player, final Location location) {
-		final String id    = player.getUniqueId().toString().replace("-", "");
-		final World  world = location.getWorld();
+	public Location getSpawnForPlayer(final OfflinePlayer player, final World world) {
+		final String id = player.getUniqueId().toString().replace("-", "");
 
 		try {
 			final PreparedStatement statement = connection.prepareStatement(
@@ -144,11 +143,9 @@ public class MySQL extends AbstractStorage {
 			y = result.getDouble(++i);
 			z = result.getDouble(++i);
 
-			final float yaw, pitch;
-			yaw = result.getFloat(++i);
-			pitch = player.getLocation().getPitch();
+			final float yaw = result.getFloat(++i);
 
-			return new Location(world, x, y, z, yaw, pitch);
+			return new Location(world, x, y, z, yaw, 0);
 		} catch (final SQLException exception) {
 			QuickCommands.getInstance().getLogger().warning("Failed to get spawn for player " + player.getName() + ".");
 		}
