@@ -55,7 +55,7 @@ public class QuickCommands extends JavaPlugin {
 		settings = new Settings();
 
 		// Are we enabled?
-		if (!settings.enabled) {
+		if (!settings.isEnabled()) {
 			return;
 		}
 
@@ -91,7 +91,7 @@ public class QuickCommands extends JavaPlugin {
 		// Register our listeners.
 		server.getPluginManager().registerEvents(new Listeners(), this);
 
-		if (settings.creativeInventory) {
+		if (settings.isCreativeInventory()) {
 			server.getOnlinePlayers().stream().filter(player -> player.getGameMode() == GameMode.CREATIVE).forEach(player ->
 					PlayerBackupManager.backup(player, true)
 			);

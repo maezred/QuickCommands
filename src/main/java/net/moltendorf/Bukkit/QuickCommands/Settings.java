@@ -1,10 +1,12 @@
 package net.moltendorf.Bukkit.QuickCommands;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Settings class.
@@ -17,8 +19,21 @@ public class Settings {
 		return QuickCommands.getInstance().settings;
 	}
 
-	// Final data.
-	final protected boolean enabled = true; // Whether or not the plugin is enabled at all; interface mode.
+	final private FileConfiguration config;
+	private       boolean           dirty;
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	private boolean enabled = true; // Whether or not the plugin is enabled at all; interface mode.
+
+	public boolean isCreativeInventory() {
+		return creativeInventory;
+	}
+
+	private boolean creativeInventory = true;
+
 
 	final protected Set<Material> equipment = new HashSet<>(Arrays.asList(
 		Material.DIAMOND_HELMET,
@@ -125,9 +140,39 @@ public class Settings {
 		Material.FLINT_AND_STEEL
 	));
 
-	final protected boolean creativeInventory;
-
 	public Settings() {
-		creativeInventory = QuickCommands.getInstance().getConfig().getBoolean("creative-inventory", true);
+		final QuickCommands instance = QuickCommands.getInstance();
+		final Logger        log      = instance.getLogger();
+
+		// Make sure the default configuration is saved.
+		instance.saveDefaultConfig();
+
+		config = instance.getConfig();
+
+		if (config.isBoolean("enabled")) {
+			enabled = config.getBoolean("enabled", enabled);
+		} else {
+			set("enabled", enabled);
+		}
+
+		if (config.isBoolean("creative-inventory")) {
+			creativeInventory = config.getBoolean("creative-inventory", creativeInventory);
+		} else {
+			set("creative-inventory", creativeInventory);
+		}
+
+		save();
+	}
+
+	private void save() {
+		if (dirty) {
+			QuickCommands.getInstance().saveConfig();
+			dirty = false;
+		}
+	}
+
+	public void set(final String path, final Object value) {
+		config.set(path, value);
+		dirty = true;
 	}
 }

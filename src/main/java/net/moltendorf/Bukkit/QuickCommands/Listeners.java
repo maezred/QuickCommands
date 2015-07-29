@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class Listeners implements Listener {
 	@EventHandler(ignoreCancelled = true)
 	public void PlayerGameModeChangeEventHandler(final PlayerGameModeChangeEvent event) {
-		if (Settings.getInstance().creativeInventory) {
+		if (Settings.getInstance().isCreativeInventory()) {
 			final Player player = event.getPlayer();
 			final GameMode gameMode = player.getGameMode();
 			final GameMode newGameMode = event.getNewGameMode();
@@ -31,7 +31,7 @@ public class Listeners implements Listener {
 
 	@EventHandler
 	public void PlayerJoinEventHandler(final PlayerJoinEvent event) {
-		if (Settings.getInstance().creativeInventory) {
+		if (Settings.getInstance().isCreativeInventory()) {
 			final Player player = event.getPlayer();
 
 			if (player.getGameMode() == GameMode.CREATIVE) {
