@@ -1,6 +1,9 @@
 package net.moltendorf.Bukkit.QuickCommands;
 
+import net.moltendorf.Bukkit.QuickCommands.storage.AbstractStorage;
+import net.moltendorf.Bukkit.QuickCommands.storage.MySQL;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
@@ -15,7 +18,7 @@ import java.util.logging.Logger;
  * @author moltendorf
  */
 public class Settings {
-	protected static Settings getInstance() {
+	public static Settings getInstance() {
 		return QuickCommands.getInstance().settings;
 	}
 
@@ -34,6 +37,11 @@ public class Settings {
 
 	private boolean creativeInventory = true;
 
+	public AbstractStorage getStorage() {
+		return storage;
+	}
+
+	private AbstractStorage storage = null;
 
 	final protected Set<Material> equipment = new HashSet<>(Arrays.asList(
 		Material.DIAMOND_HELMET,
@@ -159,6 +167,17 @@ public class Settings {
 			creativeInventory = config.getBoolean("creative-inventory", creativeInventory);
 		} else {
 			set("creative-inventory", creativeInventory);
+		}
+
+		if (config.isConfigurationSection("storage")) {
+			final ConfigurationSection storageSection = config.getConfigurationSection("storage");
+
+			if (storageSection.isBoolean("enabled") && storageSection.getBoolean("storage.enabled", false) && storageSection.isString("type")) {
+				switch (storageSection.getString("type", "")) {
+					case "mysql":
+						storage = new MySQL(storageSection);
+				}
+			}
 		}
 
 		save();

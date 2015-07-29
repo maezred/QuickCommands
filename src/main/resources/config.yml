@@ -1,1 +1,11 @@
 creative-inventory: true
+individual-spawns: false # Requires storage setup.
+storage:
+  enabled: false
+  type: mysql
+  host: localhost
+  port: 3306
+  prefix: qc__
+  database: database
+  username: username
+  password: password
