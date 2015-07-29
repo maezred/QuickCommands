@@ -422,6 +422,11 @@ public class Commands {
 
 					if (spawn != null) {
 						storage.setSpawnForPlayer(player, spawn);
+						QuickCommands.getInstance().getServer().getConsoleSender().sendMessage(
+							"§3Set " + player.getName() + "'s permanent spawn point to " +
+								spawn.getBlockX() + "/" + spawn.getBlockY() + "/" + spawn.getBlockZ() + " in Overworld.");
+						player.sendMessage("§3Your permanent spawn point has been set to " +
+							spawn.getBlockX() + "/" + spawn.getBlockY() + "/" + spawn.getBlockZ() + " in Overworld.");
 					}
 				} else {
 					countdown = false;
@@ -474,6 +479,11 @@ public class Commands {
 
 				// Set new spawn point.
 				Settings.getInstance().getStorage().setSpawnForPlayer(player, strike);
+				QuickCommands.getInstance().getServer().getConsoleSender().sendMessage(
+					"§3Set " + player.getName() + "'s permanent spawn point to " +
+						strike.getBlockX() + "/" + strike.getBlockY() + "/" + strike.getBlockZ() + " in Overworld.");
+				player.sendMessage("§3Your permanent spawn point has been set to " +
+					strike.getBlockX() + "/" + strike.getBlockY() + "/" + strike.getBlockZ() + " in Overworld.");
 
 				teleport = () -> {
 					final Location previous = player.getLocation();
