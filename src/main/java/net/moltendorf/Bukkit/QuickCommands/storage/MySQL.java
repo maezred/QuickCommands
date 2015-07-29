@@ -66,6 +66,7 @@ public class MySQL extends AbstractStorage {
 			connection = DriverManager.getConnection(url, username, password);
 		} catch (final Exception exception) {
 			QuickCommands.getInstance().getLogger().warning("Could not connect to MySQL database with provided information.");
+			exception.printStackTrace();
 		}
 	}
 
@@ -115,6 +116,7 @@ public class MySQL extends AbstractStorage {
 			statement.executeUpdate();
 		} catch (final SQLException exception) {
 			QuickCommands.getInstance().getLogger().warning("Failed to set spawn for player " + player.getName() + ".");
+			exception.printStackTrace();
 		}
 	}
 
@@ -148,6 +150,7 @@ public class MySQL extends AbstractStorage {
 			return new Location(world, x, y, z, yaw, 0);
 		} catch (final SQLException exception) {
 			QuickCommands.getInstance().getLogger().warning("Failed to get spawn for player " + player.getName() + ".");
+			exception.printStackTrace();
 		}
 
 		return null;
