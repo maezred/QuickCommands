@@ -172,7 +172,7 @@ public class Settings {
 		if (config.isConfigurationSection("storage")) {
 			final ConfigurationSection storageSection = config.getConfigurationSection("storage");
 
-			if (storageSection.isBoolean("enabled") && storageSection.getBoolean("storage.enabled", false) && storageSection.isString("type")) {
+			if (storageSection.isBoolean("enabled") && storageSection.getBoolean("enabled", false) && storageSection.isString("type")) {
 				switch (storageSection.getString("type", "")) {
 					case "mysql":
 						storage = new MySQL(storageSection);
