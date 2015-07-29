@@ -128,7 +128,8 @@ public class MySQL extends AbstractStorage {
 			final PreparedStatement statement = connection.prepareStatement(
 				"select x, y, z, yaw " +
 					"from " + prefix + "spawns " +
-					"where id = UNHEX(?) and world = ?"
+					"where id = UNHEX(?) and world = ? " +
+					"limit 1"
 			);
 
 			int i = 0;
@@ -138,16 +139,18 @@ public class MySQL extends AbstractStorage {
 
 			final ResultSet result = statement.executeQuery();
 
-			i = 0;
+			if (result.next()) {
+				i = 0;
 
-			final double x, y, z;
-			x = result.getDouble(++i);
-			y = result.getDouble(++i);
-			z = result.getDouble(++i);
+				final double x, y, z;
+				x = result.getDouble(++i);
+				y = result.getDouble(++i);
+				z = result.getDouble(++i);
 
-			final float yaw = result.getFloat(++i);
+				final float yaw = result.getFloat(++i);
 
-			return new Location(world, x, y, z, yaw, 0);
+				return new Location(world, x, y, z, yaw, 0);
+			}
 		} catch (final SQLException exception) {
 			QuickCommands.getInstance().getLogger().warning("Failed to get spawn for player " + player.getName() + ".");
 			exception.printStackTrace();
