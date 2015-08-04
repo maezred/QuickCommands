@@ -86,8 +86,10 @@ public class MySQL extends AbstractStorage {
 
 		float yaw = location.getYaw();
 
+		PreparedStatement statement = null;
+
 		try {
-			final PreparedStatement statement = connection.prepareStatement(
+			statement = connection.prepareStatement(
 				"insert into " + prefix + "spawns " +
 					"(id, x, y, z, yaw, world) " +
 					"values (UNHEX(?), ?, ?, ?, ?, ?) " +
@@ -117,6 +119,14 @@ public class MySQL extends AbstractStorage {
 		} catch (final SQLException exception) {
 			QuickCommands.getInstance().getLogger().warning("Failed to set spawn for player " + player.getName() + ".");
 			exception.printStackTrace();
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (final SQLException exception) {
+					// Quiet!
+				}
+			}
 		}
 	}
 
@@ -124,8 +134,13 @@ public class MySQL extends AbstractStorage {
 	public Location getSpawnForPlayer(final OfflinePlayer player, final World world) {
 		final String id = player.getUniqueId().toString().replace("-", "");
 
+		Location location = null;
+
+		PreparedStatement statement = null;
+		ResultSet         result    = null;
+
 		try {
-			final PreparedStatement statement = connection.prepareStatement(
+			statement = connection.prepareStatement(
 				"select x, y, z, yaw " +
 					"from " + prefix + "spawns " +
 					"where id = UNHEX(?) and world = ? " +
@@ -137,7 +152,7 @@ public class MySQL extends AbstractStorage {
 			statement.setString(++i, id);
 			statement.setString(++i, world.getName());
 
-			final ResultSet result = statement.executeQuery();
+			result = statement.executeQuery();
 
 			if (result.next()) {
 				i = 0;
@@ -149,13 +164,29 @@ public class MySQL extends AbstractStorage {
 
 				final float yaw = result.getFloat(++i);
 
-				return new Location(world, x, y, z, yaw, 0);
+				location = new Location(world, x, y, z, yaw, 0);
 			}
 		} catch (final SQLException exception) {
 			QuickCommands.getInstance().getLogger().warning("Failed to get spawn for player " + player.getName() + ".");
 			exception.printStackTrace();
+		} finally {
+			if (result != null) {
+				try {
+					result.close();
+				} catch (final SQLException exception) {
+					// Quiet!
+				}
+			}
+
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (final SQLException exception) {
+					// Quiet!
+				}
+			}
 		}
 
-		return null;
+		return location;
 	}
 }
