@@ -9,3 +9,6 @@ storage:
   database: database
   username: username
   password: password
+
+# Enable/Disable the plugin entirely.
+enabled: true
